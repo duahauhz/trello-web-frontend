@@ -5,12 +5,15 @@ import { Experimental_CssVarsProvider as CssVarsProvider } from '@mui/material/s
 // import { ThemeProvider } from '@mui/material/styles'
 import App from './App.jsx'
 import theme from './theme'
+import { BrowserRouter } from 'react-router-dom'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <CssVarsProvider theme={theme}>
+    <BrowserRouter>
+      <CssVarsProvider theme={theme}>
         <CssBaseline />
         <App />
-    </CssVarsProvider>
-  </React.StrictMode>,
+      </CssVarsProvider>
+    </BrowserRouter>
+  </React.StrictMode>
 )
