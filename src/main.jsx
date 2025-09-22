@@ -6,14 +6,17 @@ import { Experimental_CssVarsProvider as CssVarsProvider } from '@mui/material/s
 import App from './App.jsx'
 import theme from './theme'
 import { BrowserRouter } from 'react-router-dom'
+import { AuthProvider } from "./context/AuthContext"
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <BrowserRouter>
-      <CssVarsProvider theme={theme}>
-        <CssBaseline />
-        <App />
-      </CssVarsProvider>
+      <AuthProvider>
+        <CssVarsProvider theme={theme}>
+          <CssBaseline />
+          <App />
+        </CssVarsProvider>
+      </AuthProvider>
     </BrowserRouter>
   </React.StrictMode>
 )
