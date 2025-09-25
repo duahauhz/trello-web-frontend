@@ -6,7 +6,7 @@ const theme = extendTheme({
   colorSchemes: {
     light: {
       palette: {
-        primary: teal,
+        primary: cyan,
         secondary: deepOrange
       },
       spacing: (factor) => `${0.25 * factor}rem`

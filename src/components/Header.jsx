@@ -27,7 +27,7 @@ export default function Header() {
   };
 
   const handleLoginClick = () => {
-    navigate("/login");
+    navigate("/signin");
   };
 
   return (
@@ -50,8 +50,8 @@ export default function Header() {
             FAQ
           </Button>
 
-          <IconButton color="inherit" onClick={handleNotificationClick}>
-            <Badge variant="dot" color="error">
+          <IconButton color="inherit" sx={{ color: "#fff" }} onClick={handleNotificationClick}>
+            <Badge variant="dot" color="error" invisible={false}>
               <NotificationsIcon />
             </Badge>
           </IconButton>
@@ -60,13 +60,13 @@ export default function Header() {
         {/* Logo giữa */}
         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
           <img src="/logo.png" alt="SeniorCare" style={{ height: 40 }} />
-          <Typography variant="h6" sx={{ fontWeight: 600 }}>
+          <Typography variant="h6" sx={{ color: "#fff", fontWeight: 600 }}>
             SeniorCare
           </Typography>
         </Box>
 
         {/* Bên phải: chỉ hiện chào + avatar khi ĐÃ đăng nhập */}
-        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+        <Box sx={{color: '#ffffff', display: "flex", alignItems: "center", gap: 1 }}>
           {user && (
             <>
               <Typography>{`Xin chào, ${user.name}`}</Typography>
@@ -102,24 +102,24 @@ export default function Header() {
         }}
       >
         {/* Menu giữa */}
-        <Button component={Link} to="/" color="inherit" sx={{ textDecoration: "underline" }}>
+        <Button component={Link} to="/" color="inherit" sx={{color: '#ffffff', textDecoration: "underline" }}>
           Trang chủ
         </Button>
-        <Button component={Link} to="/news" color="inherit" sx={{ textDecoration: "underline" }}>
+        <Button component={Link} to="/news" color="inherit" sx={{ color: '#ffffff', textDecoration: "underline" }}>
           Tin tức
         </Button>
-        <Button component={Link} to="/booking" color="inherit" sx={{ textDecoration: "underline" }}>
+        <Button component={Link} to="/booking" color="inherit" sx={{ color: '#ffffff', textDecoration: "underline" }}>
           Đặt lịch khám
         </Button>
-        <Button component={Link} to="/ai" color="inherit" sx={{ textDecoration: "underline" }}>
+        <Button component={Link} to="/ai" color="inherit" sx={{ color: '#ffffff', textDecoration: "underline" }}>
           AI Companion
         </Button>
-        <Button component={Link} to="/support" color="inherit" sx={{ textDecoration: "underline" }}>
+        <Button component={Link} to="/support" color="inherit" sx={{ color: '#ffffff', textDecoration: "underline" }}>
           Hỗ trợ
         </Button>
 
         {/* ✅ Light/Dark Mode hẳn về góc phải */}
-        <Box sx={{ position: "absolute", right: 16 }}>
+        <Box sx={{position: "absolute", right: 16 }}>
           <ModeSelect />
         </Box>
       </Toolbar>
