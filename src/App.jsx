@@ -15,7 +15,16 @@ import SignUp from "./pages/SignUp";
 import SignIn from "./pages/SignIn";
 import User from "./pages/User";
 import Notifications from "./pages/Notifications";
+import AiCompanion from "./pages/AiCompanion";
+import AISS1 from "./pages/AISS1";
+import ChatHistoryPage from "./pages/ChatHistoryPage";
+import Booking from "./pages/Booking";
+import SpecialtyDoctors from "./pages/SpecialtyDoctors";
+import AllDoctors from "./pages/AllDoctors";
+import DoctorDetail from "./pages/DoctorDetail";
+import AppointmentBooking from "./pages/AppointmentBooking";
 import Footer from "./components/Footer";
+import ChatDetail from "./components/ai/ChatDetail";
 
 /* Component chọn chế độ sáng/tối */
 function ModeSelect() {
@@ -70,6 +79,15 @@ export default function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/user" element={<User />} />
         <Route path="/notifications" element={<Notifications />} />
+        <Route path="/booking" element={<Booking />} />
+        <Route path="/booking/specialty/:specialtyId" element={<SpecialtyDoctors />} />
+        <Route path="/booking/doctors" element={<AllDoctors />} />
+        <Route path="/booking/doctor/:id" element={<DoctorDetail />} />
+        <Route path="/booking/appointment/:id" element={<AppointmentBooking />} />
+        <Route path="/ai" element={<AiCompanion />} />
+        <Route path="/ai/chat/:topicId" element={<AISS1 />} />
+        <Route path="/ai/history" element={<ChatHistoryPage />} />
+        <Route path="/ai/history/:id" element={<ChatDetail />} />
       </Routes>
       
       <Footer />
