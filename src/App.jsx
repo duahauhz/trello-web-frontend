@@ -13,6 +13,7 @@ import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import SignUp from "./pages/SignUp";
 import SignIn from "./pages/SignIn";
+import LoginSelect from "./pages/LoginSelect";
 import User from "./pages/User";
 import Notifications from "./pages/Notifications";
 import AiCompanion from "./pages/AiCompanion";
@@ -27,6 +28,13 @@ import News from "./pages/News";
 import Support from "./pages/Support";
 import Footer from "./components/Footer";
 import ChatDetail from "./components/ai/ChatDetail";
+
+// Doctor pages
+import DoctorSignIn from "./pages/doctor/DoctorSignIn";
+import DoctorSignUp from "./pages/doctor/DoctorSignUp";
+import DoctorDashboard from "./pages/doctor/DoctorDashboard";
+import DoctorAppointments from "./pages/doctor/DoctorAppointments";
+import DoctorPatients from "./pages/doctor/DoctorPatients";
 
 /* Component chọn chế độ sáng/tối */
 function ModeSelect() {
@@ -76,7 +84,9 @@ export default function App() {
       {/* <ModeSelect /> */}
 
       <Routes>
+        {/* Patient Routes */}
         <Route path="/" element={<Home />} />
+        <Route path="/login" element={<LoginSelect />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/user" element={<User />} />
@@ -92,6 +102,13 @@ export default function App() {
         <Route path="/ai/chat/:topicId" element={<AISS1 />} />
         <Route path="/ai/history" element={<ChatHistoryPage />} />
         <Route path="/ai/history/:id" element={<ChatDetail />} />
+        
+        {/* Doctor Routes */}
+        <Route path="/doctor/signin" element={<DoctorSignIn />} />
+        <Route path="/doctor/signup" element={<DoctorSignUp />} />
+        <Route path="/doctor/dashboard" element={<DoctorDashboard />} />
+        <Route path="/doctor/appointments" element={<DoctorAppointments />} />
+        <Route path="/doctor/patients" element={<DoctorPatients />} />
       </Routes>
       
       <Footer />

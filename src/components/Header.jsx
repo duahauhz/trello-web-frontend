@@ -14,11 +14,15 @@ import {
   List,
   ListItem,
   ListItemButton,
-  ListItemText
+  ListItemText,
+  Menu,
+  MenuItem,
+  Divider
 } from "@mui/material";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
+import LogoutIcon from "@mui/icons-material/Logout";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import ModeSelect from "./ModeSelect";
@@ -27,21 +31,37 @@ import { useState } from "react";
 export default function Header() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
 
   const handleNotificationClick = () => {
     navigate("/notifications");
   };
 
-  const handleAvatarClick = () => {
+  const handleAvatarClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleProfileClick = () => {
     navigate("/user");
+    handleMenuClose();
+  };
+
+  const handleLogout = () => {
+    logout();
+    handleMenuClose();
+    navigate("/");
   };
 
   const handleLoginClick = () => {
-    navigate("/signin");
+    navigate("/login"); // Chuyển đến trang chọn loại đăng nhập
   };
 
   const toggleMobileMenu = () => {
@@ -233,6 +253,33 @@ export default function Header() {
                 </Button>
               ))}
             </Toolbar>
+
+            {/* User Menu Dropdown */}
+            <Menu
+              anchorEl={anchorEl}
+              open={Boolean(anchorEl)}
+              onClose={handleMenuClose}
+              PaperProps={{
+                sx: {
+                  mt: 1.5,
+                  minWidth: 200,
+                  border: '1px solid',
+                  borderColor: 'divider'
+                }
+              }}
+            >
+              <MenuItem onClick={handleProfileClick}>
+                <Avatar sx={{ width: 20, height: 20, mr: 2, fontSize: 14 }}>
+                  {user?.name?.charAt(0)}
+                </Avatar>
+                Trang cá nhân
+              </MenuItem>
+              <Divider />
+              <MenuItem onClick={handleLogout} sx={{ color: 'error.main' }}>
+                <LogoutIcon sx={{ mr: 2, fontSize: 20 }} />
+                Đăng xuất
+              </MenuItem>
+            </Menu>
           </>
         )}
 
@@ -386,6 +433,24 @@ export default function Header() {
               <Badge variant="dot" color="secondary" invisible={false} />
             </ListItemButton>
           </ListItem>
+
+          {user && (
+            <>
+              <Divider sx={{ my: 1 }} />
+              <ListItem disablePadding>
+                <ListItemButton
+                  onClick={() => {
+                    handleLogout();
+                    toggleMobileMenu();
+                  }}
+                  sx={{ py: 1.5, color: 'error.main' }}
+                >
+                  <LogoutIcon sx={{ mr: 2, fontSize: 20 }} />
+                  <ListItemText primary="Đăng xuất" />
+                </ListItemButton>
+              </ListItem>
+            </>
+          )}
         </List>
       </Drawer>
     </AppBar>
