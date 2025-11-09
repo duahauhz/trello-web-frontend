@@ -36,13 +36,21 @@ export default function ArticleDialog({ open, onClose, article }) {
         sx={{ 
           m: 0, 
           p: 3, 
-          background: isExercise 
-            ? 'linear-gradient(135deg, #11998e 0%, #38ef7d 100%)'
-            : 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-          color: 'white' 
+          bgcolor: 'background.paper',
+          borderBottom: '3px solid',
+          borderColor: 'secondary.main'
         }}
       >
-        <Typography variant="h5" sx={{ fontWeight: 700, pr: 6, lineHeight: 1.4 }}>
+        <Typography 
+          variant="h4" 
+          sx={{ 
+            fontWeight: 700, 
+            pr: 6, 
+            lineHeight: 1.4,
+            fontFamily: '"Playfair Display", serif',
+            color: 'text.primary'
+          }}
+        >
           {article.title}
         </Typography>
         <IconButton
@@ -52,10 +60,9 @@ export default function ArticleDialog({ open, onClose, article }) {
             position: 'absolute',
             right: 12,
             top: 12,
-            color: 'white',
-            bgcolor: 'rgba(255,255,255,0.1)',
+            color: 'text.primary',
             '&:hover': {
-              bgcolor: 'rgba(255,255,255,0.2)'
+              bgcolor: 'action.hover'
             }
           }}
         >
@@ -91,9 +98,9 @@ export default function ArticleDialog({ open, onClose, article }) {
                      article.category === 'nutrition' ? 'Dinh dưỡng' :
                      article.category === 'lifestyle' ? 'Lối sống' : article.category}
               sx={{ 
-                bgcolor: isExercise ? 'success.main' : 'primary.main',
+                bgcolor: 'secondary.main',
                 color: 'white',
-                fontWeight: 700
+                fontWeight: 600
               }}
               size="small"
             />
@@ -120,13 +127,13 @@ export default function ArticleDialog({ open, onClose, article }) {
           {isExercise && (
             <>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                <TimerIcon sx={{ fontSize: 18, color: 'success.main' }} />
+                <TimerIcon sx={{ fontSize: 18, color: 'text.secondary' }} />
                 <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 500 }}>
                   {article.duration}
                 </Typography>
               </Box>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                <FitnessCenterIcon sx={{ fontSize: 18, color: 'success.main' }} />
+                <FitnessCenterIcon sx={{ fontSize: 18, color: 'text.secondary' }} />
                 <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 500 }}>
                   {article.difficulty}
                 </Typography>
@@ -141,13 +148,15 @@ export default function ArticleDialog({ open, onClose, article }) {
             '& h2': {
               fontSize: '1.75rem',
               fontWeight: 700,
-              color: 'primary.main',
+              fontFamily: '"Playfair Display", serif',
+              color: 'text.primary',
               mb: 2,
               mt: 3
             },
             '& h3': {
               fontSize: '1.25rem',
               fontWeight: 600,
+              fontFamily: '"Playfair Display", serif',
               color: 'text.primary',
               mb: 1.5,
               mt: 2

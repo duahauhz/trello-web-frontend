@@ -3,10 +3,8 @@ import {
   Box,
   Card,
   CardContent,
-  CardMedia,
   Typography,
   Grid,
-  useTheme,
   CardActionArea,
   Chip
 } from '@mui/material';
@@ -96,89 +94,74 @@ const specialties = [
 ];
 
 const SpecialtyCard = ({ specialty }) => {
-  const theme = useTheme();
   const navigate = useNavigate();
 
   return (
     <Card
       sx={{
         height: '100%',
-        borderRadius: 2.5,
-        overflow: 'hidden',
-        transition: 'all 0.3s ease',
         position: 'relative',
-        boxShadow: theme.shadows[1],
+        border: '1px solid',
+        borderColor: 'divider',
+        borderLeft: '3px solid',
+        borderLeftColor: 'transparent',
+        boxShadow: '0 1px 3px rgba(0,0,0,0.05)',
+        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
         '&:hover': {
-          transform: 'translateY(-4px)',
-          boxShadow: `0 6px 16px ${specialty.color}35`,
-          '& .specialty-image': {
-            transform: 'scale(1.05)',
-          },
-          '& .specialty-overlay': {
-            opacity: 0.75
+          borderLeftColor: 'secondary.main',
+          boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
+          transform: 'translateY(-2px)',
+          '& .specialty-icon': {
+            transform: 'scale(1.1)',
+            color: 'secondary.main'
           }
         }
       }}
     >
       <CardActionArea onClick={() => navigate(`/booking/specialty/${specialty.id}`)}>
-        {/* Background Image */}
+        {/* Icon Header */}
         <Box
           sx={{
-            height: 120,
-            position: 'relative',
-            overflow: 'hidden',
-            bgcolor: specialty.color
+            p: 3,
+            textAlign: 'center',
+            borderBottom: '1px solid',
+            borderColor: 'divider',
+            bgcolor: 'rgba(0,0,0,0.01)'
           }}
         >
           <Box
-            component="img"
-            src={specialty.image}
-            alt={specialty.name}
-            className="specialty-image"
-            onError={(e) => {
-              e.target.style.display = 'none';
-              e.target.parentElement.style.background = `linear-gradient(135deg, ${specialty.color}dd, ${specialty.color}99)`;
-            }}
+            className="specialty-icon"
             sx={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-              objectPosition: 'center',
-              transition: 'transform 0.3s ease'
-            }}
-          />
-          <Box
-            className="specialty-overlay"
-            sx={{
-              position: 'absolute',
-              inset: 0,
-              background: `linear-gradient(135deg, ${specialty.color}bb, ${specialty.color}77)`,
-              opacity: 0.7,
-              transition: 'opacity 0.3s ease',
-              display: 'flex',
+              display: 'inline-flex',
               alignItems: 'center',
-              justifyContent: 'center'
+              justifyContent: 'center',
+              width: 64,
+              height: 64,
+              borderRadius: 2,
+              bgcolor: 'background.paper',
+              border: '2px solid',
+              borderColor: 'divider',
+              color: 'text.secondary',
+              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+              '& svg': {
+                fontSize: 32
+              }
             }}
           >
-            <Box
-              sx={{
-                color: 'white',
-                filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.3))'
-              }}
-            >
-              {specialty.icon}
-            </Box>
+            {specialty.icon}
           </Box>
         </Box>
         
-        <CardContent sx={{ p: 1.8 }}>
+        <CardContent sx={{ p: 2.5 }}>
           <Typography
-            variant="subtitle2"
+            variant="h6"
             sx={{
+              fontFamily: '"Playfair Display", serif',
               fontWeight: 700,
-              mb: 0.6,
-              color: specialty.color,
-              fontSize: '0.95rem'
+              mb: 1,
+              color: 'text.primary',
+              fontSize: '1.1rem',
+              textAlign: 'center'
             }}
           >
             {specialty.name}
@@ -187,24 +170,29 @@ const SpecialtyCard = ({ specialty }) => {
             variant="body2" 
             color="text.secondary" 
             sx={{ 
-              mb: 1, 
-              fontSize: '0.8rem',
-              lineHeight: 1.4
+              mb: 2, 
+              fontSize: '0.875rem',
+              lineHeight: 1.6,
+              textAlign: 'center'
             }}
           >
             {specialty.description}
           </Typography>
-          <Chip
-            label={`${specialty.doctorCount} bác sĩ`}
-            size="small"
-            sx={{
-              bgcolor: `${specialty.color}20`,
-              color: specialty.color,
-              fontWeight: 600,
-              fontSize: '0.7rem',
-              height: 22
-            }}
-          />
+          <Box sx={{ textAlign: 'center' }}>
+            <Chip
+              label={`${specialty.doctorCount} bác sĩ`}
+              size="small"
+              sx={{
+                bgcolor: 'rgba(231, 76, 60, 0.08)',
+                color: 'secondary.main',
+                fontWeight: 600,
+                fontSize: '0.75rem',
+                height: 24,
+                border: '1px solid',
+                borderColor: 'rgba(231, 76, 60, 0.2)'
+              }}
+            />
+          </Box>
         </CardContent>
       </CardActionArea>
     </Card>
@@ -212,27 +200,49 @@ const SpecialtyCard = ({ specialty }) => {
 };
 
 export default function MedicalSpecialties() {
-  const theme = useTheme();
-
   return (
     <Box sx={{ maxWidth: 1400, mx: 'auto', px: { xs: 2, sm: 3 } }}>
-      <Box sx={{ textAlign: 'center', mb: 3.5 }}>
-        <Typography
-          variant="h5"
+      {/* Section Header */}
+      <Box sx={{ textAlign: 'center', mb: 5 }}>
+        <Typography 
+          variant="overline"
           sx={{
-            fontWeight: 700,
+            color: 'secondary.main',
+            fontWeight: 600,
+            letterSpacing: '0.15em',
+            fontSize: '0.875rem',
             mb: 1,
-            color: theme.palette.primary.main
+            display: 'block'
           }}
         >
-          Chuyên khoa khám bệnh
+          CHUYÊN KHOA
         </Typography>
-        <Typography variant="body2" color="text.secondary">
+        <Typography
+          variant="h3"
+          sx={{
+            fontFamily: '"Playfair Display", serif',
+            fontWeight: 700,
+            color: 'text.primary',
+            mb: 1,
+            fontSize: { xs: '1.75rem', md: '2.25rem' }
+          }}
+        >
+          Chuyên Khoa Khám Bệnh
+        </Typography>
+        <Typography 
+          variant="body1" 
+          color="text.secondary"
+          sx={{
+            maxWidth: '600px',
+            margin: '0 auto',
+            lineHeight: 1.7
+          }}
+        >
           Chọn chuyên khoa phù hợp để tìm bác sĩ chuyên môn cao
         </Typography>
       </Box>
 
-      <Grid container spacing={2}>
+      <Grid container spacing={3}>
         {specialties.map((specialty) => (
           <Grid item xs={12} sm={6} md={4} lg={3} key={specialty.id}>
             <SpecialtyCard specialty={specialty} />

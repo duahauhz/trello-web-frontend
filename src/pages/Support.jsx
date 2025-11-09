@@ -1,9 +1,10 @@
-import { Box, Container } from '@mui/material';
+import { Box } from '@mui/material';
 import Header from '../components/Header';
 import SupportHero from '../components/support/SupportHero';
 import FAQSection from '../components/support/FAQSection';
 import ContactForm from '../components/support/ContactForm';
 import LiveChat from '../components/support/LiveChat';
+import ContactInfo from '../components/support/ContactInfo';
 
 export default function Support() {
   return (
@@ -11,20 +12,28 @@ export default function Support() {
       {/* Header */}
       <Header />
       
-      {/* Hero Section */}
-      <SupportHero />
+      {/* Hero Section - White */}
+      <Box sx={{ bgcolor: '#ffffff' }}>
+        <SupportHero />
+      </Box>
       
-      {/* Main Content */}
-      <Container maxWidth="lg" sx={{ py: 10 }}>
-        {/* FAQ Section */}
+      {/* Contact Info Section - Light Gray */}
+      <Box sx={{ bgcolor: '#fafafa' }}>
+        <ContactInfo />
+      </Box>
+      
+      {/* FAQ Section - White */}
+      <Box id="faq-section" sx={{ bgcolor: '#ffffff' }}>
         <FAQSection />
-        
-        {/* Contact Form */}
+      </Box>
+      
+      {/* Contact Form - Light Gray */}
+      <Box id="contact-section" sx={{ bgcolor: '#fafafa' }}>
         <ContactForm />
-        
-        {/* Live Chat */}
-        <LiveChat />
-      </Container>
+      </Box>
+      
+      {/* Live Chat - Fixed Position */}
+      <LiveChat />
     </Box>
   );
 }

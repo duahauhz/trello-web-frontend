@@ -6,7 +6,6 @@ import {
   Typography,
   Avatar,
   Rating,
-  useTheme,
   IconButton
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -97,73 +96,106 @@ const patientReviews = [
 ];
 
 const ReviewCard = ({ review }) => {
-  const theme = useTheme();
-
   return (
     <Card
       sx={{
         height: '100%',
-        borderRadius: 2.5,
-        border: `1px solid ${theme.palette.divider}`,
-        transition: 'all 0.3s ease',
-        boxShadow: theme.shadows[1],
+        position: 'relative',
+        border: '1px solid',
+        borderColor: 'divider',
+        borderLeft: '3px solid',
+        borderLeftColor: 'transparent',
+        boxShadow: '0 1px 3px rgba(0,0,0,0.05)',
+        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
         '&:hover': {
-          transform: 'translateY(-4px)',
-          boxShadow: theme.shadows[6],
-          borderColor: theme.palette.primary.main
+          borderLeftColor: 'secondary.main',
+          boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
+          transform: 'translateY(-2px)'
         }
       }}
     >
-      <CardContent sx={{ p: 2.5 }}>
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 2 }}>
+      <CardContent sx={{ p: 3 }}>
+        {/* Reviewer Header */}
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2.5 }}>
           <Avatar
             src={review.image}
             sx={{
-              width: 50,
-              height: 50,
-              border: `2.5px solid ${theme.palette.primary.main}`
+              width: 56,
+              height: 56,
+              border: '2px solid',
+              borderColor: 'divider',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.06)'
             }}
           />
           <Box sx={{ flex: 1 }}>
-            <Typography variant="subtitle2" sx={{ fontWeight: 700, mb: 0.3, fontSize: '0.95rem' }}>
+            <Typography 
+              variant="subtitle2" 
+              sx={{ 
+                fontWeight: 700, 
+                mb: 0.5, 
+                fontSize: '1rem',
+                color: 'text.primary'
+              }}
+            >
               {review.patientName}
             </Typography>
-            <Typography variant="caption" color="text.secondary" sx={{ mb: 0.3, display: 'block', fontSize: '0.75rem' }}>
+            <Typography 
+              variant="caption" 
+              color="text.secondary" 
+              sx={{ 
+                mb: 0.5, 
+                display: 'block', 
+                fontSize: '0.8rem' 
+              }}
+            >
               {review.patientRole}
             </Typography>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.8 }}>
-              <Rating value={review.rating} precision={0.5} size="small" readOnly sx={{ fontSize: '1rem' }} />
-              <Typography variant="caption" color="text.secondary" sx={{ fontSize: '0.7rem' }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <Rating 
+                value={review.rating} 
+                precision={0.5} 
+                size="small" 
+                readOnly 
+                sx={{ 
+                  fontSize: '1rem',
+                  '& .MuiRating-iconFilled': {
+                    color: '#f39c12'
+                  }
+                }}
+              />
+              <Typography variant="caption" color="text.secondary" sx={{ fontSize: '0.75rem' }}>
                 {review.date}
               </Typography>
             </Box>
           </Box>
         </Box>
 
+        {/* Review Content */}
         <Box
           sx={{
             position: 'relative',
             pl: 2.5,
+            mb: 2.5,
             '&::before': {
               content: '"""',
               position: 'absolute',
               left: 0,
               top: -8,
               fontSize: 32,
-              color: theme.palette.primary.main,
-              opacity: 0.3,
-              fontFamily: 'Georgia, serif'
+              color: 'secondary.main',
+              opacity: 0.2,
+              fontFamily: '"Playfair Display", serif',
+              fontWeight: 700
             }
           }}
         >
           <Typography
             variant="body2"
             sx={{
-              lineHeight: 1.6,
-              color: theme.palette.text.secondary,
-              mb: 1.5,
+              lineHeight: 1.7,
+              color: 'text.secondary',
               fontStyle: 'italic',
-              fontSize: '0.85rem',
+              fontSize: '0.9rem',
               display: '-webkit-box',
               WebkitLineClamp: 4,
               WebkitBoxOrient: 'vertical',
@@ -174,18 +206,38 @@ const ReviewCard = ({ review }) => {
           </Typography>
         </Box>
 
+        {/* Treatment Info */}
         <Box
           sx={{
-            p: 1.2,
-            bgcolor: theme.palette.primary.light + '15',
-            borderRadius: 1.5,
-            borderLeft: `3px solid ${theme.palette.primary.main}`
+            p: 1.5,
+            bgcolor: 'rgba(231, 76, 60, 0.04)',
+            borderRadius: 1,
+            borderLeft: '3px solid',
+            borderLeftColor: 'secondary.main'
           }}
         >
-          <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mb: 0.2, fontSize: '0.7rem' }}>
-            Dịch vụ đã sử dụng:
+          <Typography 
+            variant="caption" 
+            color="text.secondary" 
+            sx={{ 
+              display: 'block', 
+              mb: 0.3, 
+              fontSize: '0.7rem',
+              textTransform: 'uppercase',
+              letterSpacing: '0.05em',
+              fontWeight: 600
+            }}
+          >
+            Dịch vụ sử dụng
           </Typography>
-          <Typography variant="body2" sx={{ fontWeight: 600, color: theme.palette.primary.main, fontSize: '0.85rem' }}>
+          <Typography 
+            variant="body2" 
+            sx={{ 
+              fontWeight: 600, 
+              color: 'secondary.main', 
+              fontSize: '0.9rem' 
+            }}
+          >
             {review.treatment}
           </Typography>
         </Box>
@@ -195,7 +247,6 @@ const ReviewCard = ({ review }) => {
 };
 
 export default function PatientTestimonials() {
-  const theme = useTheme();
   const scrollContainerRef = React.useRef(null);
   const [canScrollLeft, setCanScrollLeft] = React.useState(false);
   const [canScrollRight, setCanScrollRight] = React.useState(true);
@@ -231,53 +282,83 @@ export default function PatientTestimonials() {
 
   return (
     <Box sx={{ maxWidth: 1400, mx: 'auto', px: { xs: 2, sm: 3 } }}>
-      <Box sx={{ textAlign: 'center', mb: 3 }}>
-        <Typography
-          variant="h5"
+      {/* Section Header */}
+      <Box sx={{ textAlign: 'center', mb: 5 }}>
+        <Typography 
+          variant="overline"
           sx={{
-            fontWeight: 700,
+            color: 'secondary.main',
+            fontWeight: 600,
+            letterSpacing: '0.15em',
+            fontSize: '0.875rem',
             mb: 1,
-            color: theme.palette.primary.main
+            display: 'block'
           }}
         >
-          Phản hồi của bệnh nhân
+          ĐÁNH GIÁ
         </Typography>
-        <Typography variant="body2" color="text.secondary" sx={{ fontSize: '0.9rem' }}>
-          Những trải nghiệm thật từ bệnh nhân về dịch vụ
+        <Typography
+          variant="h3"
+          sx={{
+            fontFamily: '"Playfair Display", serif',
+            fontWeight: 700,
+            color: 'text.primary',
+            mb: 1,
+            fontSize: { xs: '1.75rem', md: '2.25rem' }
+          }}
+        >
+          Phản Hồi Của Bệnh Nhân
+        </Typography>
+        <Typography 
+          variant="body1" 
+          color="text.secondary"
+          sx={{
+            maxWidth: '600px',
+            margin: '0 auto',
+            lineHeight: 1.7
+          }}
+        >
+          Những trải nghiệm thực tế từ bệnh nhân về dịch vụ
         </Typography>
       </Box>
 
-      <Box sx={{ position: 'relative', px: { xs: 4, md: 6 } }}>
+      <Box sx={{ position: 'relative', px: { xs: 5, md: 6 } }}>
+        {/* Left Arrow */}
         <IconButton
           onClick={() => scroll('left')}
           disabled={!canScrollLeft}
           sx={{
             position: 'absolute',
-            left: { xs: -8, md: -12 },
+            left: { xs: 0, md: -4 },
             top: '50%',
             transform: 'translateY(-50%)',
             zIndex: 2,
             bgcolor: 'background.paper',
-            boxShadow: theme.shadows[2],
-            width: 36,
-            height: 36,
+            border: '1px solid',
+            borderColor: 'divider',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+            width: 40,
+            height: 40,
             '&:hover': {
-              bgcolor: theme.palette.primary.main,
+              bgcolor: 'secondary.main',
+              borderColor: 'secondary.main',
               color: 'white'
             },
             '&:disabled': {
-              opacity: 0.3
+              opacity: 0.3,
+              bgcolor: 'background.paper'
             }
           }}
         >
           <ArrowBackIcon fontSize="small" />
         </IconButton>
 
+        {/* Scrollable Container */}
         <Box
           ref={scrollContainerRef}
           sx={{
             display: 'flex',
-            gap: 2,
+            gap: 3,
             overflowX: 'auto',
             scrollBehavior: 'smooth',
             '&::-webkit-scrollbar': {
@@ -293,14 +374,14 @@ export default function PatientTestimonials() {
               key={review.id}
               sx={{
                 minWidth: {
-                  xs: '80%',
-                  sm: '300px',
-                  md: '320px'
+                  xs: '85%',
+                  sm: '320px',
+                  md: '340px'
                 },
                 maxWidth: {
-                  xs: '80%',
-                  sm: '300px',
-                  md: '320px'
+                  xs: '85%',
+                  sm: '320px',
+                  md: '340px'
                 },
                 flexShrink: 0
               }}
@@ -310,25 +391,30 @@ export default function PatientTestimonials() {
           ))}
         </Box>
 
+        {/* Right Arrow */}
         <IconButton
           onClick={() => scroll('right')}
           disabled={!canScrollRight}
           sx={{
             position: 'absolute',
-            right: { xs: -8, md: -12 },
+            right: { xs: 0, md: -4 },
             top: '50%',
             transform: 'translateY(-50%)',
             zIndex: 2,
             bgcolor: 'background.paper',
-            boxShadow: theme.shadows[2],
-            width: 36,
-            height: 36,
+            border: '1px solid',
+            borderColor: 'divider',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+            width: 40,
+            height: 40,
             '&:hover': {
-              bgcolor: theme.palette.primary.main,
+              bgcolor: 'secondary.main',
+              borderColor: 'secondary.main',
               color: 'white'
             },
             '&:disabled': {
-              opacity: 0.3
+              opacity: 0.3,
+              bgcolor: 'background.paper'
             }
           }}
         >

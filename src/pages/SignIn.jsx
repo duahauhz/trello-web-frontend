@@ -1,21 +1,32 @@
-import { Box, Button, TextField, Typography, Container, Divider } from "@mui/material";
+import { useState } from "react";
+import { Box, Button, TextField, Typography, Container, Divider, Link, IconButton, InputAdornment } from "@mui/material";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import GoogleIcon from '@mui/icons-material/Google';
 import FacebookIcon from '@mui/icons-material/Facebook';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 export default function SignIn() {
   const { login } = useAuth();
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleLogin = () => {
     // Giả lập dữ liệu user từ server
     login({
       name: "Nguyen Van A",
       avatar: "https://i.pravatar.cc/40",
-      email: "a@example.com",
+      email: email || "a@example.com",
     });
-    navigate("/"); // trở lại trang chủ
+    navigate("/");
+  };
+
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
   };
 
   return (
@@ -25,303 +36,245 @@ export default function SignIn() {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        background: 'url("/bg-login.jpg")',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
+        bgcolor: 'background.default',
+        py: { xs: 4, md: 8 }
       }}
     >
       <Container maxWidth="sm">
+        {/* Back Button */}
+        <Box sx={{ mb: 4 }}>
+          <IconButton
+            onClick={() => navigate('/')}
+            sx={{
+              border: '2px solid',
+              borderColor: 'divider',
+              '&:hover': {
+                borderColor: 'secondary.main',
+                color: 'secondary.main'
+              }
+            }}
+          >
+            <ArrowBackIcon />
+          </IconButton>
+        </Box>
+
+        {/* Sign In Card */}
         <Box
           sx={{
-            backgroundColor: 'rgba(27, 169, 181, 0.3)',
-            borderRadius: 2,
-            py: 6, // Increased vertical padding
-            px: 4,
-            backdropFilter: 'blur(10px)',
-            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+            backgroundColor: 'background.paper',
+            borderRadius: '8px',
+            py: { xs: 4, md: 6 },
+            px: { xs: 3, md: 5 },
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.08)',
+            border: '1px solid',
+            borderColor: 'divider',
             width: '100%',
-            maxWidth: '450px', // Slightly wider
+            maxWidth: '480px',
             margin: '0 auto',
           }}
         >
-          <Typography 
-            variant="h3"  // Larger title
-            align="center" 
-            sx={{ 
-              mb: 1,
-              fontWeight: 'bold',
-              color: '#FFFFFF',
-              letterSpacing: '-0.5px',
-            }}
-          >
-            Welcome
-          </Typography>
-          <Typography 
-            variant="h5" 
-            align="center" 
-            sx={{ 
-              mb: 5, // More space before form
-              color: '#FFFFFF',
-              fontWeight: '500',
-            }}
-          >
-            Sign In
-          </Typography>
+          {/* Header */}
+          <Box sx={{ textAlign: 'center', mb: 5 }}>
+            <Typography 
+              variant="h2"
+              sx={{ 
+                fontFamily: '"Playfair Display", serif',
+                fontWeight: 700,
+                mb: 1,
+                color: 'text.primary'
+              }}
+            >
+              Đăng nhập
+            </Typography>
+            <Typography 
+              variant="body1"
+              sx={{ 
+                color: 'text.secondary',
+                fontWeight: 400
+              }}
+            >
+              Chào mừng trở lại! Vui lòng đăng nhập để tiếp tục
+            </Typography>
+          </Box>
           
-          <TextField 
-            variant="outlined"
-            placeholder="example@gmail.com"
-            label="Email" 
-            fullWidth 
-            sx={{ 
-              mb: 3, // More space between fields
-              backgroundColor: 'white',
-              borderRadius: 1,
-              '& .MuiOutlinedInput-root': {
-                height: '56px', // Taller input fields
-                '& fieldset': {
-                  borderColor: 'transparent',
-                },
-                '&:hover fieldset': {
-                  borderColor: 'transparent',
-                },
-                '&.Mui-focused fieldset': {
-                  borderColor: '#1BA9B5',
-                },
-              },
-            }}
-          />
-          <TextField 
-            variant="outlined"
-            placeholder="Enter your password"
-            label="Password" 
-            type="password" 
-            fullWidth 
-            sx={{ 
-              mb: 4, // More space before button
-              backgroundColor: 'white',
-              borderRadius: 1,
-              '& .MuiOutlinedInput-root': {
-                height: '56px',
-                '& fieldset': {
-                  borderColor: 'transparent',
-                },
-                '&:hover fieldset': {
-                  borderColor: 'transparent',
-                },
-                '&.Mui-focused fieldset': {
-                  borderColor: '#1BA9B5',
-                },
-              },
-            }}
-          />
-          
-          <Button 
-            variant="contained" 
-            fullWidth 
-            onClick={handleLogin}
-            sx={{
-              mb: 4,
-              backgroundColor: '#006B5E',
-              height: '56px',
-              borderRadius: 1,
-              fontSize: '16px',
-              fontWeight: 'bold',
-              transition: 'all 0.3s ease',
-              position: 'relative',
-              overflow: 'hidden',
-              '&::before': {
-                content: '""',
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                width: '100%',
-                height: '100%',
-                background: 'rgba(255, 255, 255, 0.1)',
-                transform: 'translateX(-100%)',
-                transition: 'transform 0.3s ease',
-              },
-              '&:hover': {
-                backgroundColor: '#005347',
-                transform: 'translateY(-2px)',
-                boxShadow: '0 5px 15px rgba(0, 107, 94, 0.4)',
-                '&::before': {
-                  transform: 'translateX(100%)',
-                },
-              },
-              '&:active': {
-                transform: 'translateY(0)',
-                boxShadow: '0 2px 10px rgba(0, 107, 94, 0.4)',
-              },
-            }}
-          >
-            SIGN IN
-          </Button>
+          {/* Form */}
+          <Box component="form" onSubmit={(e) => { e.preventDefault(); handleLogin(); }}>
+            <TextField 
+              variant="outlined"
+              placeholder="example@gmail.com"
+              label="Email" 
+              type="email"
+              fullWidth 
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              sx={{ mb: 3 }}
+            />
 
+            <TextField 
+              variant="outlined"
+              placeholder="Nhập mật khẩu"
+              label="Mật khẩu" 
+              type={showPassword ? 'text' : 'password'}
+              fullWidth 
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      onClick={handleClickShowPassword}
+                      edge="end"
+                      sx={{
+                        '&:hover': {
+                          color: 'secondary.main'
+                        }
+                      }}
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+              sx={{ mb: 2 }}
+            />
+
+            {/* Forgot Password */}
+            <Box sx={{ textAlign: 'right', mb: 4 }}>
+              <Link
+                href="#"
+                underline="none"
+                sx={{
+                  color: 'text.secondary',
+                  fontSize: '0.875rem',
+                  transition: 'color 0.3s ease',
+                  '&:hover': {
+                    color: 'secondary.main'
+                  }
+                }}
+              >
+                Quên mật khẩu?
+              </Link>
+            </Box>
+            
+            {/* Sign In Button */}
+            <Button 
+              variant="contained" 
+              color="secondary"
+              fullWidth 
+              type="submit"
+              size="large"
+              sx={{
+                mb: 4,
+                py: 1.5,
+                fontSize: '1rem',
+                fontWeight: 600,
+                textTransform: 'none'
+              }}
+            >
+              Đăng nhập
+            </Button>
+          </Box>
+
+          {/* Divider */}
           <Box sx={{ display: 'flex', alignItems: 'center', mb: 4 }}>
             <Divider sx={{ flex: 1 }} />
-            <Typography variant="body1" sx={{ mx: 2, color: '#000', fontWeight: '500' }}>
-              or continue with
+            <Typography 
+              variant="body2" 
+              sx={{ 
+                mx: 2, 
+                color: 'text.secondary',
+                fontWeight: 500
+              }}
+            >
+              hoặc tiếp tục với
             </Typography>
             <Divider sx={{ flex: 1 }} />
           </Box>
 
+          {/* Social Login Buttons */}
           <Box 
             sx={{ 
               display: 'flex', 
-              justifyContent: 'center', 
-              gap: 3,
-              mb: 4,
-              px: 4,
+              gap: 2,
+              mb: 4
             }}
           >
             <Button
               variant="outlined"
               fullWidth
+              startIcon={<GoogleIcon />}
               sx={{ 
-                backgroundColor: 'white',
-                borderColor: 'transparent',
-                borderRadius: 1,
-                height: '56px',
-                maxWidth: '160px',
-                transition: 'all 0.3s ease',
-                position: 'relative',
-                overflow: 'hidden',
-                '&::before': {
-                  content: '""',
-                  position: 'absolute',
-                  top: 0,
-                  left: 0,
-                  width: '100%',
-                  height: '100%',
-                  background: 'radial-gradient(circle at center, rgba(219, 68, 55, 0.1) 0%, transparent 70%)',
-                  opacity: 0,
-                  transition: 'opacity 0.3s ease',
-                },
-                '&:hover': {
-                  borderColor: '#DB4437',
-                  backgroundColor: 'rgba(219, 68, 55, 0.02)',
-                  transform: 'translateY(-2px)',
-                  boxShadow: '0 5px 15px rgba(219, 68, 55, 0.15)',
-                  '& .MuiSvgIcon-root': {
-                    transform: 'scale(1.1)',
-                    filter: 'drop-shadow(0 2px 4px rgba(219, 68, 55, 0.2))',
-                  },
-                  '&::before': {
-                    opacity: 1,
-                  },
-                },
-                '&:active': {
-                  transform: 'translateY(0)',
-                  boxShadow: '0 2px 10px rgba(219, 68, 55, 0.1)',
-                  '&::before': {
-                    opacity: 0.7,
-                  },
-                },
+                py: 1.5,
+                textTransform: 'none',
+                fontWeight: 500,
+                fontSize: '0.9375rem'
               }}
             >
-              <GoogleIcon 
-                sx={{ 
-                  color: '#DB4437', 
-                  fontSize: '28px',
-                  transition: 'all 0.3s ease',
-                }} 
-              />
+              Google
             </Button>
             <Button
               variant="outlined"
               fullWidth
+              startIcon={<FacebookIcon />}
               sx={{ 
-                backgroundColor: 'white',
-                borderColor: 'transparent',
-                borderRadius: 1,
-                height: '56px',
-                maxWidth: '160px',
-                transition: 'all 0.3s ease',
-                position: 'relative',
-                overflow: 'hidden',
-                '&::before': {
-                  content: '""',
-                  position: 'absolute',
-                  top: 0,
-                  left: 0,
-                  width: '100%',
-                  height: '100%',
-                  background: 'radial-gradient(circle at center, rgba(66, 103, 178, 0.1) 0%, transparent 70%)',
-                  opacity: 0,
-                  transition: 'opacity 0.3s ease',
-                },
-                '&:hover': {
-                  borderColor: '#4267B2',
-                  backgroundColor: 'rgba(66, 103, 178, 0.02)',
-                  transform: 'translateY(-2px)',
-                  boxShadow: '0 5px 15px rgba(66, 103, 178, 0.15)',
-                  '& .MuiSvgIcon-root': {
-                    transform: 'scale(1.1)',
-                    filter: 'drop-shadow(0 2px 4px rgba(66, 103, 178, 0.2))',
-                  },
-                  '&::before': {
-                    opacity: 1,
-                  },
-                },
-                '&:active': {
-                  transform: 'translateY(0)',
-                  boxShadow: '0 2px 10px rgba(66, 103, 178, 0.1)',
-                  '&::before': {
-                    opacity: 0.7,
-                  },
-                },
+                py: 1.5,
+                textTransform: 'none',
+                fontWeight: 500,
+                fontSize: '0.9375rem'
               }}
             >
-              <FacebookIcon 
-                sx={{ 
-                  color: '#4267B2', 
-                  fontSize: '28px',
-                  transition: 'all 0.3s ease',
-                }} 
-              />
+              Facebook
             </Button>
           </Box>
 
+          {/* Sign Up Link */}
           <Box sx={{ textAlign: 'center' }}>
             <Typography 
               variant="body2" 
               component="span"
-              sx={{ color: '#FFFFFF' }}
+              sx={{ color: 'text.secondary' }}
             >
-              Don&apos;t have an account?{' '}
+              Chưa có tài khoản?{' '}
             </Typography>
-            <Button 
+            <Link
+              component="button"
+              variant="body2"
               onClick={() => navigate('/signup')}
+              underline="none"
               sx={{ 
-                textTransform: 'none',
-                color: '#1BA9B5',
-                fontWeight: 'bold',
-                position: 'relative',
-                '&::before': {
-                  content: '""',
-                  position: 'absolute',
-                  bottom: 0,
-                  left: '50%',
-                  transform: 'translateX(-50%)',
-                  width: 0,
-                  height: '2px',
-                  backgroundColor: '#1BA9B5',
-                  transition: 'width 0.3s ease',
-                },
+                color: 'secondary.main',
+                fontWeight: 600,
+                cursor: 'pointer',
+                transition: 'opacity 0.3s ease',
                 '&:hover': {
-                  backgroundColor: 'transparent',
-                  color: '#1BA9B5',
-                  '&::before': {
-                    width: '80%',
-                  },
-                },
+                  opacity: 0.8
+                }
               }}
             >
-              SIGN UP
-            </Button>
+              Đăng ký ngay
+            </Link>
           </Box>
         </Box>
+
+        {/* Footer Note */}
+        <Typography 
+          variant="caption" 
+          sx={{ 
+            display: 'block',
+            textAlign: 'center',
+            color: 'text.secondary',
+            mt: 3
+          }}
+        >
+          Bằng việc đăng nhập, bạn đồng ý với{' '}
+          <Link href="#" underline="none" sx={{ color: 'secondary.main' }}>
+            Điều khoản dịch vụ
+          </Link>
+          {' '}và{' '}
+          <Link href="#" underline="none" sx={{ color: 'secondary.main' }}>
+            Chính sách bảo mật
+          </Link>
+        </Typography>
       </Container>
     </Box>
   );

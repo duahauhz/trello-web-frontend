@@ -2,48 +2,51 @@ import {
   useColorScheme
 } from "@mui/material/styles";
 import {
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  Box
+  IconButton,
+  Box,
+  Tooltip
 } from "@mui/material";
 import LightModeIcon from "@mui/icons-material/LightMode";
-import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
-import SettingsBrightnessIcon from "@mui/icons-material/SettingsBrightness";
+import DarkModeIcon from "@mui/icons-material/DarkMode";
 
 export default function ModeSelect() {
   const { mode, setMode } = useColorScheme();
 
-  const handleChange = (event) => {
-    setMode(event.target.value);
+  const handleToggle = () => {
+    setMode(mode === 'light' ? 'dark' : 'light');
   };
 
   return (
-    <FormControl size="small" sx={{ minWidth: 120 }}>
-      <InputLabel id="mode-select-label">Mode</InputLabel>
-      <Select
-        labelId="mode-select-label"
-        value={mode}
-        label="Mode"
-        onChange={handleChange}
+    <Tooltip title={mode === 'light' ? 'Chuyển sang chế độ tối' : 'Chuyển sang chế độ sáng'}>
+      <IconButton
+        onClick={handleToggle}
+        sx={{
+          border: '2px solid',
+          borderColor: 'divider',
+          color: 'text.primary',
+          transition: 'all 0.3s ease',
+          '&:hover': {
+            borderColor: 'secondary.main',
+            color: 'secondary.main',
+            backgroundColor: 'transparent',
+            transform: 'rotate(180deg)'
+          }
+        }}
       >
-        <MenuItem value="light">
-          <Box sx={{color: '#ffffff', display: "flex", alignItems: "center", gap: 1 }}>
-            <LightModeIcon fontSize="small" /> Light
-          </Box>
-        </MenuItem>
-        <MenuItem value="dark">
-          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-            <DarkModeOutlinedIcon fontSize="small" /> Dark
-          </Box>
-        </MenuItem>
-        <MenuItem value="system">
-          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-            <SettingsBrightnessIcon fontSize="small" /> System
-          </Box>
-        </MenuItem>
-      </Select>
-    </FormControl>
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}
+        >
+          {mode === 'light' ? (
+            <LightModeIcon fontSize="small" />
+          ) : (
+            <DarkModeIcon fontSize="small" />
+          )}
+        </Box>
+      </IconButton>
+    </Tooltip>
   );
 }

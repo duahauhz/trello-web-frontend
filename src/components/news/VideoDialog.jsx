@@ -29,11 +29,20 @@ export default function VideoDialog({ open, onClose, video }) {
         sx={{ 
           m: 0, 
           p: 3, 
-          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-          color: 'white'
+          bgcolor: 'background.paper',
+          borderBottom: '3px solid',
+          borderColor: 'secondary.main'
         }}
       >
-        <Typography variant="h5" sx={{ fontWeight: 700, pr: 6 }}>
+        <Typography 
+          variant="h4" 
+          sx={{ 
+            fontWeight: 700, 
+            pr: 6,
+            fontFamily: '"Playfair Display", serif',
+            color: 'text.primary'
+          }}
+        >
           {video.title}
         </Typography>
         <IconButton
@@ -43,10 +52,9 @@ export default function VideoDialog({ open, onClose, video }) {
             position: 'absolute',
             right: 12,
             top: 12,
-            color: 'white',
-            bgcolor: 'rgba(255,255,255,0.1)',
+            color: 'text.primary',
             '&:hover': {
-              bgcolor: 'rgba(255,255,255,0.2)'
+              bgcolor: 'action.hover'
             }
           }}
         >

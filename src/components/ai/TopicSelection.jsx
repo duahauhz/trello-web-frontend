@@ -1,216 +1,250 @@
-import { Grid, Typography, Card, CardActionArea, Box, Container, Paper } from '@mui/material';
+import { Grid, Typography, Card, CardActionArea, Box, Container } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-
-import { keyframes } from '@mui/system';
 
 const topics = [
   {
     id: 'health',
     title: 'Trò chuyện về sức khỏe',
-    description: 'Trò đổi những thông tin về các vấn đề sức khỏe như: tuổi già, gout ngọc, tim mạch, xương khớp.',
-    icon: '❤️💊',
-    bgColor: '#ffebee'
+    description: 'Trao đổi những thông tin về các vấn đề sức khỏe như: tuổi già, gout ngọc, tim mạch, xương khớp.',
+    icon: '❤️',
   },
   {
     id: 'family',
     title: 'Trò chuyện về gia đình',
     description: 'Chia sẻ cảm xúc, chuyện con cháu và những khoảnh khắc đẹp đời sống gia đình.',
     icon: '👨‍👩‍👧‍👦',
-    bgColor: '#e8f5e9'
   },
   {
     id: 'hometown',
-    title: 'Trò chuyện về quê hương cội nguồn',
+    title: 'Trò chuyện về quê hương',
     description: 'Ôn lại ký ức tuổi thơ, những nơi quê nhà và những câu chuyện truyền thống.',
     icon: '🏡',
-    bgColor: '#fff3e0'
   },
   {
     id: 'spirit',
-    title: 'Trò chuyện về tâm linh, lễ hội',
+    title: 'Trò chuyện về tâm linh',
     description: 'Trò chuyện về tín ngưỡng, lễ hội và những giá trị tinh thần đáng quý.',
     icon: '🙏',
-    bgColor: '#e3f2fd'
   },
   {
     id: 'memories',
-    title: 'Trò chuyện về con cháu, kỉ niệm xưa',
-    description: 'Công AI gợi nhớ những kỷ niệm đẹp, hình ảnh cũ và các chuyện thời trẻ.',
-    icon: '👵🏻📸',
-    bgColor: '#f3e5f5'
+    title: 'Trò chuyện về kỷ niệm xưa',
+    description: 'Gợi nhớ những kỷ niệm đẹp, hình ảnh cũ và các chuyện thời trẻ.',
+    icon: '📸',
   },
   {
     id: 'hobbies',
-    title: 'Trò chuyện về chủ đề yêu thích',
-    description: 'Chọn chủ đề bạn thích - từ ẩm thực, phim ảnh đến cây cảnh - và trò chuyện thoải mái cùng AI.',
+    title: 'Trò chuyện về sở thích',
+    description: 'Chọn chủ đề bạn thích - từ ẩm thực, phim ảnh đến cây cảnh - và trò chuyện thoải mái.',
     icon: '🎯',
-    bgColor: '#e0f7fa'
   }
 ];
 
-const float = keyframes`
-  0% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-  100% {
-    transform: translateY(0px);
-  }
-`;
-
-const shine = keyframes`
-  0% {
-    background-position: -100px;
-  }
-  40%, 100% {
-    background-position: 140px;
-  }
-`;
-
 export default function TopicSelection() {
   const navigate = useNavigate();
-
 
   const handleTopicSelect = (topicId) => {
     navigate(`/ai/chat/${topicId}`);
   };
 
   return (
-    <Container maxWidth="lg" sx={{ py: 8 }}>
-      <Paper 
-        elevation={0}
-        sx={{ 
-          bgcolor: 'transparent',
-          borderRadius: 4,
-          overflow: 'hidden',
-          position: 'relative',
-          '&::before': {
-            content: '""',
-            position: 'absolute',
-            top: 0,
-            left: '-100%',
-            width: '100%',
-            height: '100%',
-            background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)',
-            animation: `${shine} 5s infinite linear`
-          }
-        }}
-      >
-        <Box 
-          sx={{ 
-            p: { xs: 2, md: 6 },
-            borderRadius: 4,
-            background: 'linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%)',
-            backdropFilter: 'blur(10px)',
-            border: '1px solid rgba(255,255,255,0.2)'
+    <Container maxWidth="lg" sx={{ py: { xs: 6, md: 10 } }}>
+      {/* Section Header */}
+      <Box sx={{ textAlign: 'center', mb: 6 }}>
+        <Typography 
+          variant="overline"
+          sx={{
+            color: 'secondary.main',
+            fontWeight: 600,
+            letterSpacing: '0.15em',
+            fontSize: '0.875rem',
+            mb: 1,
+            display: 'block'
           }}
         >
-          <Typography 
-            variant="h3" 
-            sx={{ 
-              textAlign: 'center', 
-              mb: 6,
-              background: 'linear-gradient(45deg, #0097a7, #4DD0E1)',
-              backgroundClip: 'text',
-              textFillColor: 'transparent',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              fontWeight: 800,
-              position: 'relative',
-              '&::after': {
-                content: '""',
-                position: 'absolute',
-                bottom: '-16px',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                width: '100px',
-                height: '4px',
-                background: 'linear-gradient(90deg, transparent, #0097a7, transparent)',
-                borderRadius: '2px'
-              }
-            }}
-      >
-        Lựa chọn chủ đề bạn muốn tâm sự
-      </Typography>
+          CHỦ ĐỀ TÂM SỰ
+        </Typography>
+        <Typography
+          variant="h3"
+          sx={{
+            fontFamily: '"Playfair Display", serif',
+            fontWeight: 700,
+            color: 'text.primary',
+            mb: 2,
+            fontSize: { xs: '1.75rem', md: '2.25rem' }
+          }}
+        >
+          Lựa Chọn Chủ Đề Bạn Muốn Tâm Sự
+        </Typography>
+        <Typography 
+          variant="body1" 
+          color="text.secondary"
+          sx={{
+            maxWidth: '700px',
+            margin: '0 auto',
+            lineHeight: 1.7
+          }}
+        >
+          Chọn một chủ đề để bắt đầu cuộc trò chuyện với trợ lý AI thông minh
+        </Typography>
+      </Box>
 
-          <Grid container spacing={4} sx={{ mt: 4 }}>
-            {topics.map((topic) => (
-              <Grid item xs={12} sm={6} md={4} key={topic.id}>
-                <Card 
+      {/* Topic Cards Grid */}
+      <Grid container spacing={3}>
+        {topics.map((topic, index) => (
+          <Grid item xs={12} sm={6} md={4} key={topic.id}>
+            <Card 
+              sx={{ 
+                height: '100%',
+                position: 'relative',
+                border: '1px solid',
+                borderColor: 'divider',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
+                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                overflow: 'hidden',
+                '&::before': {
+                  content: '""',
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  width: '4px',
+                  height: '0%',
+                  bgcolor: 'secondary.main',
+                  transition: 'height 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
+                },
+                '&:hover': {
+                  borderColor: 'secondary.main',
+                  boxShadow: '0 8px 24px rgba(231, 76, 60, 0.12)',
+                  transform: 'translateY(-4px)',
+                  '&::before': {
+                    height: '100%'
+                  },
+                  '& .topic-icon': {
+                    transform: 'scale(1.1) rotate(-5deg)',
+                    bgcolor: 'rgba(231, 76, 60, 0.08)'
+                  },
+                  '& .topic-number': {
+                    color: 'secondary.main'
+                  }
+                }
+              }}
+            >
+              <CardActionArea 
+                onClick={() => handleTopicSelect(topic.id)}
+                sx={{ 
+                  height: '100%', 
+                  p: 3.5,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'flex-start',
+                  justifyContent: 'flex-start',
+                  position: 'relative'
+                }}
+              >
+                {/* Topic Number */}
+                <Typography
+                  className="topic-number"
+                  sx={{
+                    position: 'absolute',
+                    top: 16,
+                    right: 16,
+                    fontFamily: '"Playfair Display", serif',
+                    fontSize: '3rem',
+                    fontWeight: 700,
+                    color: 'rgba(0,0,0,0.03)',
+                    lineHeight: 1,
+                    transition: 'color 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
+                  }}
+                >
+                  {String(index + 1).padStart(2, '0')}
+                </Typography>
+
+                {/* Icon Container */}
+                <Box 
+                  className="topic-icon"
                   sx={{ 
-                    height: '100%',
-                    transition: 'all 0.4s ease',
-                    background: `linear-gradient(135deg, ${topic.bgColor}80, ${topic.bgColor}40)`,
-                    backdropFilter: 'blur(10px)',
-                    border: '1px solid rgba(255,255,255,0.2)',
-                    animation: `${float} 6s ease-in-out infinite`,
-                    animationDelay: `${Math.random() * 2}s`,
-                    '&:hover': {
-                      transform: 'translateY(-12px) scale(1.02)',
-                      boxShadow: `0 20px 40px ${topic.bgColor}40`,
-                      '& .icon': {
-                        transform: 'scale(1.2) rotate(10deg)',
-                      }
+                    width: 72,
+                    height: 72,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '2.25rem',
+                    bgcolor: 'rgba(0,0,0,0.02)',
+                    border: '2px solid',
+                    borderColor: 'divider',
+                    borderRadius: 2,
+                    mb: 3,
+                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                    position: 'relative',
+                    zIndex: 1
+                  }}
+                >
+                  {topic.icon}
+                </Box>
+
+                {/* Title */}
+                <Typography 
+                  variant="h6" 
+                  sx={{ 
+                    mb: 1.5,
+                    fontFamily: '"Playfair Display", serif',
+                    fontWeight: 700,
+                    color: 'text.primary',
+                    fontSize: '1.25rem',
+                    lineHeight: 1.3
+                  }}
+                >
+                  {topic.title}
+                </Typography>
+
+                {/* Description */}
+                <Typography 
+                  variant="body2"
+                  sx={{ 
+                    color: 'text.secondary',
+                    lineHeight: 1.7,
+                    fontSize: '0.875rem',
+                    display: '-webkit-box',
+                    WebkitLineClamp: 3,
+                    WebkitBoxOrient: 'vertical',
+                    overflow: 'hidden'
+                  }}
+                >
+                  {topic.description}
+                </Typography>
+
+                {/* Hover Indicator */}
+                <Box
+                  sx={{
+                    position: 'absolute',
+                    bottom: 16,
+                    right: 16,
+                    width: 32,
+                    height: 32,
+                    borderRadius: '50%',
+                    border: '2px solid',
+                    borderColor: 'divider',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    opacity: 0,
+                    transform: 'translate(8px, 8px)',
+                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                    '.MuiCard-root:hover &': {
+                      opacity: 1,
+                      transform: 'translate(0, 0)',
+                      borderColor: 'secondary.main',
+                      color: 'secondary.main'
                     }
                   }}
                 >
-                  <CardActionArea 
-                    onClick={() => handleTopicSelect(topic.id)}
-                    sx={{ 
-                      height: '100%', 
-                      p: 4,
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'center'
-                    }}
-                  >
-                    <Box 
-                      className="icon"
-                      sx={{ 
-                        fontSize: '4rem',
-                        textAlign: 'center',
-                        mb: 3,
-                        transition: 'transform 0.4s ease',
-                        filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.1))'
-                      }}
-                    >
-                      {topic.icon}
-                    </Box>
-                    <Typography 
-                      variant="h5" 
-                      sx={{ 
-                        mb: 2,
-                        background: 'linear-gradient(45deg, #0097a7, #4DD0E1)',
-                        backgroundClip: 'text',
-                        WebkitBackgroundClip: 'text',
-                        WebkitTextFillColor: 'transparent',
-                        fontWeight: 700,
-                        textAlign: 'center',
-                        textTransform: 'uppercase',
-                        letterSpacing: '0.5px'
-                      }}
-                    >
-                      {topic.title}
-                    </Typography>
-                    <Typography 
-                      variant="body1"
-                      sx={{ 
-                        textAlign: 'center',
-                        color: 'text.secondary',
-                        lineHeight: 1.6
-                      }}
-                    >
-                      {topic.description}
-                    </Typography>
-                  </CardActionArea>
-                </Card>
-              </Grid>
-            ))}
+                  →
+                </Box>
+              </CardActionArea>
+            </Card>
           </Grid>
-        </Box>
-      </Paper>
+        ))}
+      </Grid>
     </Container>
   );
 }

@@ -226,64 +226,84 @@ export default function ExerciseArticles({ onArticleClick }) {
 
   return (
     <Box sx={{ mb: 8 }} id="exercise-articles">
-      {/* Header với gradient background */}
-      <Box 
-        sx={{ 
-          background: 'linear-gradient(135deg, #11998e 0%, #38ef7d 100%)',
-          borderRadius: 4,
-          p: 4,
-          mb: 4,
-          color: 'white',
-          position: 'relative',
-          overflow: 'hidden',
-          '&::before': {
-            content: '""',
-            position: 'absolute',
-            top: 0,
-            right: 0,
-            width: '200px',
-            height: '200px',
-            background: 'radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%)',
-            borderRadius: '50%',
-            transform: 'translate(50%, -50%)'
-          }
-        }}
-      >
-        <Box sx={{ position: 'relative', zIndex: 1 }}>
-          <Typography variant="h4" sx={{ fontWeight: 800, mb: 1, display: 'flex', alignItems: 'center', gap: 1 }}>
-            💪 Bài Tập Phục Hồi Chức Năng
+      {/* Header */}
+      <Box sx={{ mb: 4 }}>
+        <Box sx={{ textAlign: 'center', mb: 4 }}>
+          <Typography 
+            variant="overline"
+            sx={{
+              color: 'secondary.main',
+              fontWeight: 600,
+              letterSpacing: '0.15em',
+              fontSize: '0.875rem',
+              mb: 1,
+              display: 'block'
+            }}
+          >
+            BÀI TẬP PHỤC HỒI
           </Typography>
-          <Typography variant="body1" sx={{ opacity: 0.95, mb: 3 }}>
+          <Typography 
+            variant="h3"
+            sx={{ 
+              fontFamily: '"Playfair Display", serif',
+              fontWeight: 700,
+              color: 'text.primary',
+              mb: 1
+            }}
+          >
+            Hướng Dẫn Phục Hồi
+          </Typography>
+          <Typography 
+            variant="body1"
+            sx={{
+              color: 'text.secondary',
+              maxWidth: '600px',
+              margin: '0 auto',
+              lineHeight: 1.8
+            }}
+          >
             Hướng dẫn các bài tập phục hồi và cải thiện sức khỏe
           </Typography>
-
-          {/* Difficulty Filter */}
-          <Stack direction="row" spacing={1} sx={{ flexWrap: 'wrap', gap: 1 }}>
-            {difficulties.map((difficulty) => (
-              <Chip
-                key={difficulty.id}
-                label={difficulty.label}
-                onClick={() => {
-                  setSelectedDifficulty(difficulty.id);
-                  setCurrentPage(0);
-                }}
-                sx={{
-                  bgcolor: selectedDifficulty === difficulty.id 
-                    ? 'rgba(255,255,255,0.3)' 
-                    : 'rgba(255,255,255,0.15)',
-                  color: 'white',
-                  fontWeight: selectedDifficulty === difficulty.id ? 700 : 500,
-                  border: selectedDifficulty === difficulty.id 
-                    ? '2px solid white' 
-                    : '2px solid transparent',
-                  '&:hover': {
-                    bgcolor: 'rgba(255,255,255,0.25)'
-                  }
-                }}
-              />
-            ))}
-          </Stack>
         </Box>
+
+        {/* Difficulty Filter */}
+        <Stack 
+          direction="row" 
+          spacing={1} 
+          sx={{ 
+            flexWrap: 'wrap', 
+            gap: 1,
+            justifyContent: 'center',
+            mb: 2
+          }}
+        >
+          {difficulties.map((difficulty) => (
+            <Chip
+              key={difficulty.id}
+              label={difficulty.label}
+              onClick={() => {
+                setSelectedDifficulty(difficulty.id);
+                setCurrentPage(0);
+              }}
+              sx={{
+                bgcolor: selectedDifficulty === difficulty.id 
+                  ? 'secondary.main' 
+                  : 'background.paper',
+                color: selectedDifficulty === difficulty.id ? 'white' : 'text.primary',
+                fontWeight: selectedDifficulty === difficulty.id ? 600 : 500,
+                border: '1px solid',
+                borderColor: selectedDifficulty === difficulty.id 
+                  ? 'secondary.main' 
+                  : 'divider',
+                '&:hover': {
+                  bgcolor: selectedDifficulty === difficulty.id 
+                    ? 'secondary.dark' 
+                    : 'action.hover'
+                }
+              }}
+            />
+          ))}
+        </Stack>
       </Box>
 
       {/* Exercise Cards Container với Navigation */}
@@ -347,16 +367,31 @@ export default function ExerciseArticles({ onArticleClick }) {
                 minWidth: 320,
                 maxWidth: 320,
                 cursor: 'pointer',
-                transition: 'all 0.3s ease',
-                borderRadius: 3,
+                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                borderRadius: '4px',
                 overflow: 'hidden',
-                boxShadow: '0 4px 12px rgba(17, 153, 142, 0.15)',
+                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)',
                 border: '1px solid',
-                borderColor: 'rgba(17, 153, 142, 0.1)',
+                borderColor: 'divider',
+                position: 'relative',
+                '&::before': {
+                  content: '""',
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  width: '4px',
+                  height: '0%',
+                  bgcolor: 'secondary.main',
+                  transition: 'height 0.3s ease',
+                  zIndex: 1
+                },
                 '&:hover': {
-                  transform: 'translateY(-12px)',
-                  boxShadow: '0 12px 28px rgba(17, 153, 142, 0.25)',
-                  borderColor: 'rgba(17, 153, 142, 0.3)'
+                  transform: 'translateY(-8px)',
+                  boxShadow: '0 8px 24px rgba(0, 0, 0, 0.12)',
+                  borderColor: 'secondary.main',
+                  '&::before': {
+                    height: '100%'
+                  }
                 }
               }}
               onClick={() => onArticleClick(article)}
@@ -411,13 +446,13 @@ export default function ExerciseArticles({ onArticleClick }) {
                   borderColor: 'divider' 
                 }}>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                    <TimerIcon sx={{ fontSize: 16, color: 'success.main' }} />
+                    <TimerIcon sx={{ fontSize: 16, color: 'text.secondary' }} />
                     <Typography variant="caption" sx={{ fontSize: '0.75rem', fontWeight: 500 }}>
                       {article.duration}
                     </Typography>
                   </Box>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                    <FitnessCenterIcon sx={{ fontSize: 16, color: 'success.main' }} />
+                    <FitnessCenterIcon sx={{ fontSize: 16, color: 'text.secondary' }} />
                     <Typography variant="caption" sx={{ fontSize: '0.75rem', fontWeight: 500 }}>
                       {article.difficulty}
                     </Typography>
@@ -440,11 +475,11 @@ export default function ExerciseArticles({ onArticleClick }) {
                 width: currentPage === index ? 32 : 10,
                 height: 10,
                 borderRadius: 5,
-                bgcolor: currentPage === index ? 'success.main' : 'grey.300',
+                bgcolor: currentPage === index ? 'secondary.main' : 'grey.300',
                 cursor: 'pointer',
                 transition: 'all 0.3s ease',
                 '&:hover': {
-                  bgcolor: currentPage === index ? 'success.dark' : 'grey.400'
+                  bgcolor: currentPage === index ? 'secondary.dark' : 'grey.400'
                 }
               }}
             />

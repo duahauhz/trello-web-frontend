@@ -1,48 +1,69 @@
 import React from 'react';
-import { Grid, Typography, Card, CardContent, CardMedia, Box, Button, IconButton, Container, Paper } from '@mui/material';
+import { Typography, Card, CardContent, CardMedia, Box, Button, IconButton, Container } from '@mui/material';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { useTheme } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 
 const ChatHistoryCard = ({ chat, onView, onDelete }) => {
-  const theme = useTheme();
-  
   return (
     <Card 
       sx={{ 
         height: '100%',
-        borderRadius: 2,
+        position: 'relative',
+        border: '1px solid',
+        borderColor: 'divider',
+        borderLeft: '3px solid',
+        borderLeftColor: 'transparent',
+        boxShadow: '0 1px 3px rgba(0,0,0,0.05)',
+        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
         overflow: 'hidden',
-        transition: 'transform 0.3s ease',
         '&:hover': {
-          transform: 'translateY(-4px)',
-          boxShadow: theme.shadows[8]
+          borderLeftColor: 'secondary.main',
+          boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
+          transform: 'translateY(-2px)',
+          '& .chat-image': {
+            transform: 'scale(1.05)'
+          }
         }
       }}
     >
-      <CardMedia
-        component="img"
-        height="160"
-        image={chat.image}
-        alt={chat.title}
-        sx={{
-          objectFit: 'cover',
-          transition: 'transform 0.3s ease',
-          '&:hover': {
-            transform: 'scale(1.05)'
-          }
-        }}
-      />
-      <CardContent sx={{ p: 2 }}>
+      <Box sx={{ position: 'relative', height: 160, overflow: 'hidden', bgcolor: 'rgba(0,0,0,0.02)' }}>
+        <CardMedia
+          component="img"
+          height="160"
+          image={chat.image}
+          alt={chat.title}
+          className="chat-image"
+          sx={{
+            objectFit: 'cover',
+            transition: 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
+          }}
+        />
+      </Box>
+      <CardContent sx={{ p: 2.5 }}>
+        <Typography 
+          variant="overline"
+          sx={{
+            color: 'secondary.main',
+            fontSize: '0.7rem',
+            fontWeight: 600,
+            letterSpacing: '0.1em',
+            display: 'block',
+            mb: 0.5
+          }}
+        >
+          {chat.category}
+        </Typography>
         <Typography 
           variant="h6" 
           sx={{ 
-            mb: 1,
-            color: theme.palette.primary.main,
-            fontWeight: 600 
+            mb: 1.5,
+            fontFamily: '"Playfair Display", serif',
+            fontWeight: 700,
+            color: 'text.primary',
+            fontSize: '1.1rem'
           }}
         >
           {chat.title}
@@ -50,42 +71,57 @@ const ChatHistoryCard = ({ chat, onView, onDelete }) => {
         <Typography 
           variant="body2" 
           color="text.secondary"
-          sx={{ mb: 2 }}
+          sx={{ 
+            mb: 2.5,
+            fontSize: '0.875rem',
+            lineHeight: 1.6,
+            minHeight: '2.6em',
+            display: '-webkit-box',
+            WebkitLineClamp: 2,
+            WebkitBoxOrient: 'vertical',
+            overflow: 'hidden'
+          }}
         >
-          {chat.category}
+          {chat.lastMessage}
         </Typography>
-        <Box sx={{ display: 'flex', gap: 1 }}>
+        <Box sx={{ display: 'flex', gap: 1.5, alignItems: 'center' }}>
           <Button
             variant="contained"
-            startIcon={<VisibilityIcon />}
+            startIcon={<VisibilityIcon sx={{ fontSize: 18 }} />}
             onClick={onView}
-            size="small"
+            fullWidth
             sx={{
-              bgcolor: theme.palette.primary.main,
+              bgcolor: 'secondary.main',
+              color: 'white',
+              textTransform: 'none',
+              fontWeight: 600,
+              py: 1,
+              boxShadow: 'none',
               '&:hover': {
-                bgcolor: theme.palette.primary.dark,
+                bgcolor: 'secondary.dark',
+                boxShadow: '0 4px 12px rgba(231, 76, 60, 0.3)'
               }
             }}
           >
-            Xem thêm
+            Xem
           </Button>
-          <Button
-            variant="outlined"
-            startIcon={<DeleteOutlineIcon />}
+          <IconButton
             onClick={onDelete}
-            size="small"
             sx={{
-              color: theme.palette.grey[600],
-              borderColor: theme.palette.grey[300],
+              border: '1px solid',
+              borderColor: 'divider',
+              width: 40,
+              height: 40,
+              flexShrink: 0,
               '&:hover': {
-                bgcolor: theme.palette.error.light,
-                color: theme.palette.error.main,
-                borderColor: theme.palette.error.main,
+                borderColor: 'error.main',
+                color: 'error.main',
+                bgcolor: 'rgba(244, 67, 54, 0.04)'
               }
             }}
           >
-            Xoá
-          </Button>
+            <DeleteOutlineIcon fontSize="small" />
+          </IconButton>
         </Box>
       </CardContent>
     </Card>
@@ -93,14 +129,13 @@ const ChatHistoryCard = ({ chat, onView, onDelete }) => {
 };
 
 export default function ChatHistory() {
-  const theme = useTheme();
   const navigate = useNavigate();
   const containerRef = React.useRef(null);
 
   const handleScroll = (direction) => {
     const container = containerRef.current;
     if (container) {
-      const scrollAmount = 300;
+      const scrollAmount = 350;
       const targetScroll = container.scrollLeft + (direction === 'left' ? -scrollAmount : scrollAmount);
       container.scrollTo({
         left: targetScroll,
@@ -116,7 +151,7 @@ export default function ChatHistory() {
       title: 'Tư vấn sức khỏe',
       image: '/ai-feature.jpg',
       category: 'AI Sức Khỏe',
-      lastMessage: 'Thảo luận về chế độ dinh dưỡng cho người cao tuổi',
+      lastMessage: 'Thảo luận về chế độ dinh dưỡng ',
       timestamp: '2023-10-11T10:30:00'
     },
     {
@@ -147,130 +182,146 @@ export default function ChatHistory() {
   };
 
   return (
-    <Container maxWidth="lg" sx={{ py: 8 }}>
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          mb: 6
-        }}
-      >
+    <Container maxWidth="lg" sx={{ py: { xs: 6, md: 10 } }}>
+      {/* Section Header */}
+      <Box sx={{ textAlign: 'center', mb: 6 }}>
         <Typography 
-          variant="h3" 
-          sx={{ 
-            textAlign: 'center', 
-            color: theme.palette.primary.main,
-            fontWeight: 700,
-            position: 'relative',
-            mb: 2
+          variant="overline"
+          sx={{
+            color: 'secondary.main',
+            fontWeight: 600,
+            letterSpacing: '0.15em',
+            fontSize: '0.875rem',
+            mb: 1,
+            display: 'block'
           }}
         >
-          Lịch sử cuộc trò chuyện
+          LỊCH SỬ
+        </Typography>
+        <Typography
+          variant="h3"
+          sx={{
+            fontFamily: '"Playfair Display", serif',
+            fontWeight: 700,
+            color: 'text.primary',
+            mb: 2,
+            fontSize: { xs: '1.75rem', md: '2.25rem' }
+          }}
+        >
+          Lịch Sử Cuộc Trò Chuyện
         </Typography>
         <Typography 
-          variant="subtitle1" 
+          variant="body1" 
           color="text.secondary"
-          sx={{ textAlign: 'center', maxWidth: 600, mx: 'auto' }}
+          sx={{
+            maxWidth: '700px',
+            margin: '0 auto',
+            lineHeight: 1.7
+          }}
         >
-          Xem lại những cuộc trò chuyện đã qua và tiếp tục cuộc trò chuyện bất kỳ lúc nào
+          Xem lại những cuộc trò chuyện đã qua và tiếp tục bất kỳ lúc nào
         </Typography>
       </Box>
 
-      <Paper 
-        elevation={3} 
+      {/* Scrollable Cards Container */}
+      <Box 
         sx={{ 
-          borderRadius: 4,
-          overflow: 'hidden',
-          bgcolor: 'background.default',
-          position: 'relative'
+          position: 'relative',
+          px: { xs: 5, md: 6 }
         }}
       >
-        <Box 
-          sx={{ 
-            position: 'relative',
-            px: { xs: 2, sm: 4, md: 6 },
-            py: 4,
+        {/* Left Arrow */}
+        <IconButton
+          onClick={() => handleScroll('left')}
+          sx={{
+            position: 'absolute',
+            left: { xs: 0, md: -4 },
+            top: '50%',
+            transform: 'translateY(-50%)',
+            zIndex: 2,
+            bgcolor: 'background.paper',
+            border: '1px solid',
+            borderColor: 'divider',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+            width: 40,
+            height: 40,
+            '&:hover': {
+              bgcolor: 'secondary.main',
+              borderColor: 'secondary.main',
+              color: 'white'
+            }
           }}
         >
-          <IconButton
-            onClick={() => handleScroll('left')}
-            sx={{
-              position: 'absolute',
-              left: { xs: -8, sm: 8 },
-              top: '50%',
-              transform: 'translateY(-50%)',
-              bgcolor: 'background.paper',
-              boxShadow: theme.shadows[2],
-              zIndex: 2,
-              '&:hover': {
-                bgcolor: theme.palette.primary.light,
-                color: 'white'
-              },
-              transition: 'all 0.3s ease'
-            }}
-          >
-            <ArrowBackIcon />
-          </IconButton>
+          <ArrowBackIcon />
+        </IconButton>
 
-          <Box
-            ref={containerRef}
-            sx={{
-              display: 'flex',
-              gap: 3,
-              overflowX: 'auto',
-              scrollBehavior: 'smooth',
-              '&::-webkit-scrollbar': {
-                display: 'none'
-              },
-              msOverflowStyle: 'none',
-              scrollbarWidth: 'none',
-              py: 2
-            }}
-          >
-            {chatHistory.map((chat) => (
-              <Box
-                key={chat.id}
-                sx={{
-                  minWidth: {
-                    xs: '280px',
-                    sm: '320px',
-                    md: '360px'
-                  },
-                  maxWidth: '360px',
-                  flexShrink: 0
-                }}
-              >
-                <ChatHistoryCard
-                  chat={chat}
-                  onView={() => handleView(chat.id)}
-                  onDelete={() => handleDelete(chat.id)}
-                />
-              </Box>
-            ))}
-          </Box>
-
-          <IconButton
-            onClick={() => handleScroll('right')}
-            sx={{
-              position: 'absolute',
-              right: { xs: -8, sm: 8 },
-              top: '50%',
-              transform: 'translateY(-50%)',
-              bgcolor: 'background.paper',
-              boxShadow: theme.shadows[2],
-              zIndex: 2,
-              '&:hover': {
-                bgcolor: theme.palette.primary.light,
-                color: 'white'
-              },
-              transition: 'all 0.3s ease'
-            }}
-          >
-            <ArrowForwardIcon />
-          </IconButton>
+        {/* Cards Container */}
+        <Box
+          ref={containerRef}
+          sx={{
+            display: 'flex',
+            gap: 3,
+            overflowX: 'auto',
+            scrollBehavior: 'smooth',
+            '&::-webkit-scrollbar': {
+              display: 'none'
+            },
+            msOverflowStyle: 'none',
+            scrollbarWidth: 'none',
+            py: 2
+          }}
+        >
+          {chatHistory.map((chat) => (
+            <Box
+              key={chat.id}
+              sx={{
+                minWidth: {
+                  xs: '85%',
+                  sm: '340px',
+                  md: '360px'
+                },
+                maxWidth: {
+                  xs: '85%',
+                  sm: '340px',
+                  md: '360px'
+                },
+                flexShrink: 0
+              }}
+            >
+              <ChatHistoryCard
+                chat={chat}
+                onView={() => handleView(chat.id)}
+                onDelete={() => handleDelete(chat.id)}
+              />
+            </Box>
+          ))}
         </Box>
-      </Paper>
+
+        {/* Right Arrow */}
+        <IconButton
+          onClick={() => handleScroll('right')}
+          sx={{
+            position: 'absolute',
+            right: { xs: 0, md: -4 },
+            top: '50%',
+            transform: 'translateY(-50%)',
+            zIndex: 2,
+            bgcolor: 'background.paper',
+            border: '1px solid',
+            borderColor: 'divider',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+            width: 40,
+            height: 40,
+            '&:hover': {
+              bgcolor: 'secondary.main',
+              borderColor: 'secondary.main',
+              color: 'white'
+            }
+          }}
+        >
+          <ArrowForwardIcon />
+        </IconButton>
+      </Box>
     </Container>
   );
 }

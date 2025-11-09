@@ -8,7 +8,6 @@ import {
   Button,
   Avatar,
   Grid,
-  useTheme,
   Dialog,
   DialogTitle,
   DialogContent,
@@ -29,67 +28,168 @@ import NotesIcon from '@mui/icons-material/Notes';
 
 // Component for single appointment card
 const AppointmentCard = ({ appointment, onViewDetail, onCancel }) => {
-  const theme = useTheme();
-
   return (
     <Card
       sx={{
-        borderRadius: 2.5,
-        border: `1.5px solid ${theme.palette.divider}`,
-        transition: 'all 0.3s ease',
+        position: 'relative',
+        border: '1px solid',
+        borderColor: 'divider',
+        borderLeft: '3px solid',
+        borderLeftColor: 'transparent',
+        boxShadow: '0 1px 3px rgba(0,0,0,0.05)',
+        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
         '&:hover': {
-          transform: 'translateY(-3px)',
-          boxShadow: theme.shadows[4],
-          borderColor: theme.palette.primary.main
+          borderLeftColor: 'secondary.main',
+          boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
+          transform: 'translateY(-2px)'
         }
       }}
     >
-      <CardContent sx={{ p: 2 }}>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 1.5 }}>
-          <Box sx={{ display: 'flex', gap: 1.5, alignItems: 'center' }}>
+      <CardContent sx={{ p: 2.5 }}>
+        {/* Doctor Info & Status */}
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
+          <Box sx={{ display: 'flex', gap: 1.5, flex: 1 }}>
             <Avatar
               src={appointment.doctorImage}
               sx={{
-                width: 48,
-                height: 48,
-                border: `2px solid ${theme.palette.primary.main}`
+                width: 56,
+                height: 56,
+                border: '2px solid',
+                borderColor: 'divider',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.06)'
               }}
             />
-            <Box>
-              <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 0.3 }}>
+            <Box sx={{ minWidth: 0, flex: 1 }}>
+              <Typography 
+                variant="subtitle1" 
+                sx={{ 
+                  fontWeight: 700, 
+                  mb: 0.5,
+                  color: 'text.primary',
+                  fontSize: '0.95rem'
+                }}
+              >
                 {appointment.doctorName}
               </Typography>
-              <Typography variant="caption" color="text.secondary">
-                {appointment.specialty}
-              </Typography>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mb: 0.5 }}>
+                <LocalHospitalIcon sx={{ fontSize: 14, color: 'text.secondary' }} />
+                <Typography variant="caption" color="text.secondary" sx={{ fontSize: '0.75rem' }}>
+                  {appointment.specialty}
+                </Typography>
+              </Box>
             </Box>
           </Box>
           <Chip
+            icon={<AccessTimeIcon sx={{ fontSize: 14 }} />}
             label={appointment.status === 'Confirmed' ? 'Đã xác nhận' : 'Chờ xác nhận'}
-            color={appointment.status === 'Confirmed' ? 'success' : 'warning'}
             size="small"
-            sx={{ fontWeight: 600, fontSize: '0.7rem' }}
+            sx={{
+              height: 24,
+              fontSize: '0.7rem',
+              fontWeight: 600,
+              bgcolor: appointment.status === 'Confirmed'
+                ? 'rgba(231, 76, 60, 0.08)'
+                : 'rgba(243, 156, 18, 0.1)',
+              color: appointment.status === 'Confirmed'
+                ? 'secondary.main'
+                : '#f39c12',
+              border: '1px solid',
+              borderColor: appointment.status === 'Confirmed'
+                ? 'secondary.main'
+                : '#f39c12',
+              '& .MuiChip-icon': {
+                color: 'inherit'
+              }
+            }}
           />
         </Box>
 
-        <Box sx={{ display: 'flex', gap: 1.5, mb: 1.5 }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-            <CalendarTodayIcon sx={{ fontSize: 16, color: theme.palette.primary.main }} />
-            <Typography variant="caption">{appointment.date}</Typography>
+        {/* Date & Time Info */}
+        <Box 
+          sx={{ 
+            display: 'flex',
+            gap: 2,
+            p: 1.5,
+            bgcolor: 'rgba(0,0,0,0.02)',
+            borderRadius: 1,
+            border: '1px solid',
+            borderColor: 'divider',
+            mb: 2
+          }}
+        >
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flex: 1 }}>
+            <Box
+              sx={{
+                width: 32,
+                height: 32,
+                borderRadius: 1,
+                bgcolor: 'background.paper',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                border: '1px solid',
+                borderColor: 'divider'
+              }}
+            >
+              <CalendarTodayIcon sx={{ fontSize: 14, color: 'secondary.main' }} />
+            </Box>
+            <Box>
+              <Typography variant="caption" color="text.secondary" sx={{ display: 'block', fontSize: '0.65rem', mb: 0.2 }}>
+                Ngày
+              </Typography>
+              <Typography variant="body2" sx={{ fontWeight: 600, fontSize: '0.8rem' }}>
+                {appointment.date}
+              </Typography>
+            </Box>
           </Box>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-            <AccessTimeIcon sx={{ fontSize: 16, color: theme.palette.primary.main }} />
-            <Typography variant="caption">{appointment.time}</Typography>
+
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flex: 1 }}>
+            <Box
+              sx={{
+                width: 32,
+                height: 32,
+                borderRadius: 1,
+                bgcolor: 'background.paper',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                border: '1px solid',
+                borderColor: 'divider'
+              }}
+            >
+              <AccessTimeIcon sx={{ fontSize: 14, color: 'secondary.main' }} />
+            </Box>
+            <Box>
+              <Typography variant="caption" color="text.secondary" sx={{ display: 'block', fontSize: '0.65rem', mb: 0.2 }}>
+                Giờ
+              </Typography>
+              <Typography variant="body2" sx={{ fontWeight: 600, fontSize: '0.8rem' }}>
+                {appointment.time}
+              </Typography>
+            </Box>
           </Box>
         </Box>
 
+        {/* Action Buttons */}
         <Box sx={{ display: 'flex', gap: 1 }}>
           <Button
             variant="contained"
             size="small"
             fullWidth
             onClick={() => onViewDetail(appointment)}
-            sx={{ borderRadius: 1.5, py: 0.5, fontSize: '0.75rem' }}
+            sx={{
+              bgcolor: 'secondary.main',
+              color: 'white',
+              textTransform: 'none',
+              fontWeight: 600,
+              py: 1,
+              fontSize: '0.8rem',
+              boxShadow: 'none',
+              '&:hover': {
+                bgcolor: 'secondary.dark',
+                boxShadow: '0 4px 12px rgba(231, 76, 60, 0.3)'
+              }
+            }}
           >
             Chi tiết
           </Button>
@@ -98,8 +198,18 @@ const AppointmentCard = ({ appointment, onViewDetail, onCancel }) => {
             size="small"
             fullWidth
             onClick={() => onCancel(appointment)}
-            color="error"
-            sx={{ borderRadius: 1.5, py: 0.5, fontSize: '0.75rem' }}
+            sx={{
+              borderColor: 'divider',
+              color: 'text.secondary',
+              textTransform: 'none',
+              fontWeight: 600,
+              py: 1,
+              fontSize: '0.8rem',
+              '&:hover': {
+                borderColor: 'text.secondary',
+                bgcolor: 'rgba(0,0,0,0.02)'
+              }
+            }}
           >
             Hủy lịch
           </Button>
@@ -110,8 +220,6 @@ const AppointmentCard = ({ appointment, onViewDetail, onCancel }) => {
 };
 
 export default function AppointmentSchedule({ appointments = [] }) {
-  const theme = useTheme();
-  
   // Helper function to generate future dates
   const getFutureDate = (daysFromNow) => {
     const date = new Date();
@@ -211,7 +319,6 @@ export default function AppointmentSchedule({ appointments = [] }) {
   const [cancelDialog, setCancelDialog] = useState(false);
   const [selectedAppointment, setSelectedAppointment] = useState(null);
   const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' });
-  const [loading, setLoading] = useState(false);
   
   // Initialize with mock data or props
   const [appointmentList, setAppointmentList] = useState(
@@ -257,8 +364,6 @@ export default function AppointmentSchedule({ appointments = [] }) {
 
   const handleConfirmCancel = async () => {
     try {
-      setLoading(true);
-      
       // TODO: Call API to cancel appointment
       // await fetch(`/api/appointments/${selectedAppointment.id}/cancel`, {
       //   method: 'POST',
@@ -285,8 +390,6 @@ export default function AppointmentSchedule({ appointments = [] }) {
         message: 'Không thể hủy lịch hẹn. Vui lòng thử lại.',
         severity: 'error'
       });
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -294,31 +397,46 @@ export default function AppointmentSchedule({ appointments = [] }) {
 
   return (
     <Box sx={{ maxWidth: 1400, mx: 'auto', px: { xs: 2, sm: 3 } }}>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-          <Box
-            sx={{
-              width: 44,
-              height: 44,
-              borderRadius: 2,
-              background: `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.primary.dark})`,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              boxShadow: `0 3px 8px ${theme.palette.primary.main}40`
-            }}
-          >
-            <CalendarTodayIcon sx={{ color: 'white', fontSize: 22 }} />
-          </Box>
-          <Box>
-            <Typography variant="h5" sx={{ fontWeight: 700, mb: 0.3 }}>
-              Lịch khám sắp tới
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              Bạn có {appointmentList.length} lịch hẹn
-            </Typography>
-          </Box>
-        </Box>
+      {/* Section Header */}
+      <Box sx={{ textAlign: 'center', mb: 5 }}>
+        <Typography 
+          variant="overline"
+          sx={{
+            color: 'secondary.main',
+            fontWeight: 600,
+            letterSpacing: '0.15em',
+            fontSize: '0.875rem',
+            mb: 1,
+            display: 'block'
+          }}
+        >
+          LỊCH KHÁM CỦA BẠN
+        </Typography>
+        <Typography 
+          variant="h3"
+          sx={{ 
+            fontFamily: '"Playfair Display", serif',
+            fontWeight: 700,
+            color: 'text.primary',
+            mb: 1,
+            fontSize: { xs: '1.75rem', md: '2.25rem' }
+          }}
+        >
+          Lịch Hẹn Sắp Tới
+        </Typography>
+        <Typography 
+          variant="body1"
+          sx={{
+            color: 'text.secondary',
+            maxWidth: '600px',
+            margin: '0 auto',
+            lineHeight: 1.7
+          }}
+        >
+          {appointmentList.length > 0 
+            ? `Bạn có ${appointmentList.length} lịch hẹn đang chờ` 
+            : 'Bạn chưa có lịch hẹn nào'}
+        </Typography>
       </Box>
 
       <Grid container spacing={2}>
@@ -334,7 +452,7 @@ export default function AppointmentSchedule({ appointments = [] }) {
       </Grid>
 
       {appointmentList.length > 3 && (
-        <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3 }}>
+        <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
           <Button
             variant="outlined"
             onClick={() => setShowAll(!showAll)}
@@ -342,17 +460,22 @@ export default function AppointmentSchedule({ appointments = [] }) {
               <ExpandMoreIcon
                 sx={{
                   transform: showAll ? 'rotate(180deg)' : 'rotate(0deg)',
-                  transition: 'transform 0.3s ease'
+                  transition: 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
                 }}
               />
             }
             sx={{
-              borderRadius: 3,
+              borderColor: 'divider',
+              color: 'text.primary',
+              textTransform: 'none',
+              fontWeight: 600,
               px: 4,
               py: 1.5,
-              fontWeight: 600,
-              borderWidth: 2,
-              '&:hover': { borderWidth: 2 }
+              '&:hover': {
+                borderColor: 'secondary.main',
+                color: 'secondary.main',
+                bgcolor: 'rgba(231, 76, 60, 0.04)'
+              }
             }}
           >
             {showAll ? 'Thu gọn' : `Xem thêm ${appointmentList.length - 3} lịch hẹn`}
@@ -366,18 +489,46 @@ export default function AppointmentSchedule({ appointments = [] }) {
         onClose={() => setDetailDialog(false)}
         maxWidth="sm"
         fullWidth
+        PaperProps={{
+          sx: {
+            border: '1px solid',
+            borderColor: 'divider',
+            boxShadow: '0 8px 32px rgba(0,0,0,0.12)'
+          }
+        }}
       >
-        <DialogTitle sx={{ pb: 2 }}>
+        <DialogTitle 
+          sx={{ 
+            pb: 2,
+            borderBottom: '2px solid',
+            borderColor: 'secondary.main'
+          }}
+        >
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <Typography variant="h6" sx={{ fontWeight: 700 }}>
+            <Typography 
+              variant="h5" 
+              sx={{ 
+                fontFamily: '"Playfair Display", serif',
+                fontWeight: 700,
+                color: 'text.primary'
+              }}
+            >
               Chi tiết lịch hẹn
             </Typography>
-            <IconButton onClick={() => setDetailDialog(false)} size="small">
+            <IconButton 
+              onClick={() => setDetailDialog(false)} 
+              size="small"
+              sx={{
+                '&:hover': {
+                  bgcolor: 'rgba(231, 76, 60, 0.08)',
+                  color: 'secondary.main'
+                }
+              }}
+            >
               <CloseIcon />
             </IconButton>
           </Box>
         </DialogTitle>
-        <Divider />
         <DialogContent sx={{ pt: 3 }}>
           {selectedAppointment && (
             <Box>
@@ -385,10 +536,16 @@ export default function AppointmentSchedule({ appointments = [] }) {
               <Box sx={{ display: 'flex', gap: 2, mb: 3 }}>
                 <Avatar
                   src={selectedAppointment.doctorImage}
-                  sx={{ width: 80, height: 80, border: `3px solid ${theme.palette.primary.main}` }}
+                  sx={{ 
+                    width: 80, 
+                    height: 80, 
+                    border: '2px solid',
+                    borderColor: 'divider',
+                    boxShadow: '0 2px 8px rgba(0,0,0,0.06)'
+                  }}
                 />
                 <Box sx={{ flex: 1 }}>
-                  <Typography variant="h6" sx={{ fontWeight: 600, mb: 0.5 }}>
+                  <Typography variant="h6" sx={{ fontWeight: 700, mb: 0.5 }}>
                     {selectedAppointment.doctorName}
                   </Typography>
                   <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
@@ -396,9 +553,22 @@ export default function AppointmentSchedule({ appointments = [] }) {
                   </Typography>
                   <Chip
                     label={selectedAppointment.status === 'Confirmed' ? 'Đã xác nhận' : 'Chờ xác nhận'}
-                    color={selectedAppointment.status === 'Confirmed' ? 'success' : 'warning'}
                     size="small"
-                    sx={{ fontWeight: 600 }}
+                    sx={{
+                      height: 24,
+                      fontSize: '0.75rem',
+                      fontWeight: 600,
+                      bgcolor: selectedAppointment.status === 'Confirmed'
+                        ? 'rgba(231, 76, 60, 0.08)'
+                        : 'rgba(243, 156, 18, 0.1)',
+                      color: selectedAppointment.status === 'Confirmed'
+                        ? 'secondary.main'
+                        : '#f39c12',
+                      border: '1px solid',
+                      borderColor: selectedAppointment.status === 'Confirmed'
+                        ? 'secondary.main'
+                        : '#f39c12'
+                    }}
                   />
                 </Box>
               </Box>
@@ -406,11 +576,24 @@ export default function AppointmentSchedule({ appointments = [] }) {
               <Divider sx={{ my: 2 }} />
 
               {/* Appointment Details */}
-              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2.5 }}>
                 <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2 }}>
-                  <CalendarTodayIcon sx={{ fontSize: 20, color: theme.palette.primary.main, mt: 0.3 }} />
+                  <Box
+                    sx={{
+                      width: 36,
+                      height: 36,
+                      borderRadius: 1,
+                      bgcolor: 'rgba(231, 76, 60, 0.08)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      flexShrink: 0
+                    }}
+                  >
+                    <CalendarTodayIcon sx={{ fontSize: 18, color: 'secondary.main' }} />
+                  </Box>
                   <Box>
-                    <Typography variant="caption" color="text.secondary">
+                    <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mb: 0.3 }}>
                       Ngày khám
                     </Typography>
                     <Typography variant="body1" sx={{ fontWeight: 600 }}>
@@ -420,9 +603,22 @@ export default function AppointmentSchedule({ appointments = [] }) {
                 </Box>
 
                 <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2 }}>
-                  <AccessTimeIcon sx={{ fontSize: 20, color: theme.palette.primary.main, mt: 0.3 }} />
+                  <Box
+                    sx={{
+                      width: 36,
+                      height: 36,
+                      borderRadius: 1,
+                      bgcolor: 'rgba(231, 76, 60, 0.08)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      flexShrink: 0
+                    }}
+                  >
+                    <AccessTimeIcon sx={{ fontSize: 18, color: 'secondary.main' }} />
+                  </Box>
                   <Box>
-                    <Typography variant="caption" color="text.secondary">
+                    <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mb: 0.3 }}>
                       Thời gian
                     </Typography>
                     <Typography variant="body1" sx={{ fontWeight: 600 }}>
@@ -432,9 +628,22 @@ export default function AppointmentSchedule({ appointments = [] }) {
                 </Box>
 
                 <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2 }}>
-                  <LocationOnIcon sx={{ fontSize: 20, color: theme.palette.primary.main, mt: 0.3 }} />
+                  <Box
+                    sx={{
+                      width: 36,
+                      height: 36,
+                      borderRadius: 1,
+                      bgcolor: 'rgba(231, 76, 60, 0.08)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      flexShrink: 0
+                    }}
+                  >
+                    <LocationOnIcon sx={{ fontSize: 18, color: 'secondary.main' }} />
+                  </Box>
                   <Box>
-                    <Typography variant="caption" color="text.secondary">
+                    <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mb: 0.3 }}>
                       Địa điểm
                     </Typography>
                     <Typography variant="body1" sx={{ fontWeight: 600 }}>
@@ -444,9 +653,22 @@ export default function AppointmentSchedule({ appointments = [] }) {
                 </Box>
 
                 <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2 }}>
-                  <PhoneIcon sx={{ fontSize: 20, color: theme.palette.primary.main, mt: 0.3 }} />
+                  <Box
+                    sx={{
+                      width: 36,
+                      height: 36,
+                      borderRadius: 1,
+                      bgcolor: 'rgba(231, 76, 60, 0.08)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      flexShrink: 0
+                    }}
+                  >
+                    <PhoneIcon sx={{ fontSize: 18, color: 'secondary.main' }} />
+                  </Box>
                   <Box>
-                    <Typography variant="caption" color="text.secondary">
+                    <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mb: 0.3 }}>
                       Số điện thoại bác sĩ
                     </Typography>
                     <Typography variant="body1" sx={{ fontWeight: 600 }}>
@@ -456,9 +678,22 @@ export default function AppointmentSchedule({ appointments = [] }) {
                 </Box>
 
                 <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2 }}>
-                  <NotesIcon sx={{ fontSize: 20, color: theme.palette.primary.main, mt: 0.3 }} />
+                  <Box
+                    sx={{
+                      width: 36,
+                      height: 36,
+                      borderRadius: 1,
+                      bgcolor: 'rgba(231, 76, 60, 0.08)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      flexShrink: 0
+                    }}
+                  >
+                    <NotesIcon sx={{ fontSize: 18, color: 'secondary.main' }} />
+                  </Box>
                   <Box>
-                    <Typography variant="caption" color="text.secondary">
+                    <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mb: 0.3 }}>
                       Ghi chú
                     </Typography>
                     <Typography variant="body1" sx={{ fontWeight: 600 }}>
@@ -472,10 +707,20 @@ export default function AppointmentSchedule({ appointments = [] }) {
 
               {/* Patient Info */}
               <Box>
-                <Typography variant="subtitle2" color="text.secondary" sx={{ mb: 1 }}>
+                <Typography 
+                  variant="subtitle2" 
+                  color="text.secondary" 
+                  sx={{ 
+                    mb: 2,
+                    fontWeight: 600,
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.05em',
+                    fontSize: '0.75rem'
+                  }}
+                >
                   Thông tin bệnh nhân
                 </Typography>
-                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                     <Typography variant="body2" color="text.secondary">
                       Họ và tên:
@@ -505,8 +750,22 @@ export default function AppointmentSchedule({ appointments = [] }) {
             </Box>
           )}
         </DialogContent>
-        <DialogActions sx={{ px: 3, pb: 3 }}>
-          <Button onClick={() => setDetailDialog(false)} variant="outlined">
+        <DialogActions sx={{ px: 3, pb: 3, pt: 2 }}>
+          <Button 
+            onClick={() => setDetailDialog(false)} 
+            variant="outlined"
+            sx={{
+              borderColor: 'divider',
+              color: 'text.secondary',
+              textTransform: 'none',
+              fontWeight: 600,
+              px: 3,
+              '&:hover': {
+                borderColor: 'text.secondary',
+                bgcolor: 'rgba(0,0,0,0.02)'
+              }
+            }}
+          >
             Đóng
           </Button>
         </DialogActions>
@@ -518,25 +777,64 @@ export default function AppointmentSchedule({ appointments = [] }) {
         onClose={() => setCancelDialog(false)}
         maxWidth="xs"
         fullWidth
+        PaperProps={{
+          sx: {
+            border: '1px solid',
+            borderColor: 'divider',
+            boxShadow: '0 8px 32px rgba(0,0,0,0.12)'
+          }
+        }}
       >
-        <DialogTitle>
-          <Typography variant="h6" sx={{ fontWeight: 700 }}>
+        <DialogTitle sx={{ borderBottom: '2px solid', borderColor: 'secondary.main', pb: 2 }}>
+          <Typography 
+            variant="h6" 
+            sx={{ 
+              fontFamily: '"Playfair Display", serif',
+              fontWeight: 700 
+            }}
+          >
             Xác nhận hủy lịch
           </Typography>
         </DialogTitle>
-        <DialogContent>
+        <DialogContent sx={{ pt: 3 }}>
           {selectedAppointment && (
             <Box>
-              <Alert severity="warning" sx={{ mb: 2 }}>
+              <Alert 
+                severity="warning" 
+                sx={{ 
+                  mb: 2,
+                  border: '1px solid',
+                  borderColor: '#f39c12',
+                  '& .MuiAlert-icon': {
+                    color: '#f39c12'
+                  }
+                }}
+              >
                 Bạn có chắc chắn muốn hủy lịch hẹn này không?
               </Alert>
-              <Box sx={{ display: 'flex', gap: 2, alignItems: 'center', p: 2, bgcolor: 'grey.50', borderRadius: 2 }}>
+              <Box 
+                sx={{ 
+                  display: 'flex', 
+                  gap: 2, 
+                  alignItems: 'center', 
+                  p: 2, 
+                  bgcolor: 'rgba(0,0,0,0.02)',
+                  border: '1px solid',
+                  borderColor: 'divider',
+                  borderRadius: 1
+                }}
+              >
                 <Avatar
                   src={selectedAppointment.doctorImage}
-                  sx={{ width: 50, height: 50 }}
+                  sx={{ 
+                    width: 50, 
+                    height: 50,
+                    border: '2px solid',
+                    borderColor: 'divider'
+                  }}
                 />
                 <Box>
-                  <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
+                  <Typography variant="subtitle2" sx={{ fontWeight: 700, mb: 0.3 }}>
                     {selectedAppointment.doctorName}
                   </Typography>
                   <Typography variant="caption" color="text.secondary">
@@ -547,11 +845,40 @@ export default function AppointmentSchedule({ appointments = [] }) {
             </Box>
           )}
         </DialogContent>
-        <DialogActions sx={{ px: 3, pb: 3 }}>
-          <Button onClick={() => setCancelDialog(false)} variant="outlined">
+        <DialogActions sx={{ px: 3, pb: 3, pt: 2, gap: 1 }}>
+          <Button 
+            onClick={() => setCancelDialog(false)} 
+            variant="outlined"
+            sx={{
+              borderColor: 'divider',
+              color: 'text.secondary',
+              textTransform: 'none',
+              fontWeight: 600,
+              flex: 1,
+              '&:hover': {
+                borderColor: 'text.secondary',
+                bgcolor: 'rgba(0,0,0,0.02)'
+              }
+            }}
+          >
             Không
           </Button>
-          <Button onClick={handleConfirmCancel} variant="contained" color="error">
+          <Button 
+            onClick={handleConfirmCancel} 
+            variant="contained"
+            sx={{
+              bgcolor: 'secondary.main',
+              color: 'white',
+              textTransform: 'none',
+              fontWeight: 600,
+              flex: 1,
+              boxShadow: 'none',
+              '&:hover': {
+                bgcolor: 'secondary.dark',
+                boxShadow: '0 4px 12px rgba(231, 76, 60, 0.3)'
+              }
+            }}
+          >
             Xác nhận hủy
           </Button>
         </DialogActions>

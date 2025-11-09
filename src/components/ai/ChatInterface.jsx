@@ -1,4 +1,5 @@
-import { useState, useRef, useEffect } from 'react';
+﻿import { useState, useRef, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { 
   Box, 
   Typography, 
@@ -6,12 +7,10 @@ import {
   IconButton, 
   Paper, 
   Avatar, 
-  useTheme,
   Tabs,
   Tab,
   LinearProgress,
   Chip,
-  Button,
   Divider
 } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
@@ -21,20 +20,17 @@ import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
 import VideocamIcon from '@mui/icons-material/Videocam';
 import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import PauseIcon from '@mui/icons-material/Pause';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
 import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
 import { useParams } from 'react-router-dom';
 
 const Message = ({ text, isUser, avatar, timestamp }) => {
-  const theme = useTheme();
-  
   return (
     <Box
       sx={{
         display: 'flex',
-        gap: 1.5,
-        mb: 2.5,
+        gap: 2,
+        mb: 3,
         flexDirection: isUser ? 'row-reverse' : 'row',
         alignItems: 'flex-start'
       }}
@@ -42,10 +38,15 @@ const Message = ({ text, isUser, avatar, timestamp }) => {
       <Avatar
         src={avatar}
         sx={{
-          width: 36,
-          height: 36,
-          bgcolor: isUser ? theme.palette.secondary.main : theme.palette.primary.main,
-          flexShrink: 0
+          width: 40,
+          height: 40,
+          bgcolor: isUser ? 'secondary.main' : '#1a1a1a',
+          flexShrink: 0,
+          border: '2px solid',
+          borderColor: 'divider',
+          fontFamily: '"Playfair Display", serif',
+          fontWeight: 700,
+          fontSize: '0.875rem'
         }}
       >
         {isUser ? 'U' : 'AI'}
@@ -54,16 +55,31 @@ const Message = ({ text, isUser, avatar, timestamp }) => {
         <Paper
           elevation={0}
           sx={{
-            p: 1.5,
+            p: 2,
             borderRadius: 2,
-            bgcolor: isUser ? theme.palette.primary.main : 'background.paper',
+            bgcolor: isUser ? 'secondary.main' : 'background.paper',
             color: isUser ? '#fff' : 'text.primary',
-            border: isUser ? 'none' : '1px solid',
-            borderColor: 'divider',
-            wordBreak: 'break-word'
+            border: '1px solid',
+            borderColor: isUser ? 'secondary.main' : 'divider',
+            borderLeft: isUser ? 'none' : '3px solid',
+            borderLeftColor: isUser ? 'transparent' : 'secondary.main',
+            wordBreak: 'break-word',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
+            transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+            '&:hover': {
+              boxShadow: isUser ? '0 4px 12px rgba(231, 76, 60, 0.15)' : '0 4px 12px rgba(0,0,0,0.08)'
+            }
           }}
         >
-          <Typography variant="body1">{text}</Typography>
+          <Typography 
+            variant="body1"
+            sx={{ 
+              lineHeight: 1.7,
+              fontSize: '0.9375rem'
+            }}
+          >
+            {text}
+          </Typography>
         </Paper>
         {timestamp && (
           <Typography 
@@ -71,7 +87,9 @@ const Message = ({ text, isUser, avatar, timestamp }) => {
             color="text.secondary"
             sx={{ 
               px: 1,
-              alignSelf: isUser ? 'flex-end' : 'flex-start' 
+              alignSelf: isUser ? 'flex-end' : 'flex-start',
+              fontSize: '0.75rem',
+              fontFamily: 'Inter, sans-serif'
             }}
           >
             {timestamp}
@@ -82,8 +100,14 @@ const Message = ({ text, isUser, avatar, timestamp }) => {
   );
 };
 
+Message.propTypes = {
+  text: PropTypes.string.isRequired,
+  isUser: PropTypes.bool.isRequired,
+  avatar: PropTypes.string,
+  timestamp: PropTypes.string
+};
+
 export default function ChatInterface() {
-  const theme = useTheme();
   const { topicId } = useParams();
   const [messages, setMessages] = useState([]);
   const [inputValue, setInputValue] = useState('');
@@ -91,10 +115,10 @@ export default function ChatInterface() {
   const [isRecording, setIsRecording] = useState(false);
   const messagesEndRef = useRef(null);
 
-  // Mock data for statistics
   const [statistics] = useState({
     happiness: 85,
-    stress: 23
+    stress: 23,
+    engagement: 92
   });
 
   const scrollToBottom = () => {
@@ -105,7 +129,6 @@ export default function ChatInterface() {
     scrollToBottom();
   }, [messages]);
 
-  // Mock initial greeting based on topic
   useEffect(() => {
     const topicGreetings = {
       health: "Xin chào! Tôi là trợ lý AI về sức khỏe. Bạn có thắc mắc gì về sức khỏe không?",
@@ -119,33 +142,14 @@ export default function ChatInterface() {
     const greeting = topicGreetings[topicId] || "Xin chào! Tôi có thể giúp gì cho bạn?";
     
     setMessages([
-      {
-        text: greeting,
-        isUser: false,
-        timestamp: new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' })
-      },
-      {
-        text: "Hello! What's your name?",
-        isUser: false,
-        timestamp: new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' })
-      },
-      {
-        text: "Maybe we better...",
-        isUser: true,
-        timestamp: new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' })
-      },
-      {
-        text: "Hi there! I'm an AI chatbot here to help. I hope everyone's opinion is please start!",
-        isUser: false,
-        timestamp: new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' })
-      }
+      { text: greeting, isUser: false, timestamp: new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' }) },
+      { text: "Hello!", isUser: false, timestamp: new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' }) }
     ]);
   }, [topicId]);
 
   const handleSend = () => {
     if (!inputValue.trim()) return;
 
-    // Add user message
     const newMessage = {
       text: inputValue,
       isUser: true,
@@ -153,8 +157,6 @@ export default function ChatInterface() {
     };
     setMessages(prev => [...prev, newMessage]);
 
-    // Here you would typically make an API call to your backend
-    // For now we'll simulate the AI response
     setTimeout(() => {
       setMessages(prev => [...prev, {
         text: "Cảm ơn bạn đã chia sẻ. Tôi hiểu điều bạn đang nói và muốn tìm hiểu thêm.",
@@ -174,373 +176,134 @@ export default function ChatInterface() {
   };
 
   return (
-    <Box sx={{ 
-      height: 'calc(100vh - 64px)',
-      display: 'flex',
-      bgcolor: theme.palette.grey[50],
-      gap: 2,
-      p: 2
-    }}>
-      {/* Left Side - Video/Content Area */}
-      <Box sx={{ 
-        flex: '1 1 65%',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 2
-      }}>
-        {/* Main Content/Video Area */}
-        <Paper 
-          elevation={3}
-          sx={{ 
-            flex: 1,
-            borderRadius: 3,
-            overflow: 'hidden',
-            display: 'flex',
-            flexDirection: 'column',
-            bgcolor: '#f5f5f5',
-            position: 'relative'
-          }}
-        >
-          {/* Video/Content Placeholder */}
-          <Box
-            sx={{
-              flex: 1,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              bgcolor: '#e0e0e0',
-              position: 'relative',
-              backgroundImage: 'url(/api/placeholder/800/600)',
-              backgroundSize: 'cover',
-              backgroundPosition: 'center'
-            }}
-          >
-            {/* This is where backend will push video/content */}
-            <Box
-              sx={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                bgcolor: 'rgba(0,0,0,0.3)'
-              }}
-            >
-              <VideocamIcon sx={{ fontSize: 80, color: 'white', opacity: 0.7 }} />
+    <Box sx={{ height: 'calc(100vh - 64px)', display: 'flex', bgcolor: '#fafafa', gap: 3, p: 3 }}>
+      <Box sx={{ flex: '1 1 65%', display: 'flex', flexDirection: 'column' }}>
+        <Paper elevation={0} sx={{ flex: 1, borderRadius: 2, overflow: 'hidden', display: 'flex', flexDirection: 'column', bgcolor: '#ffffff', border: '1px solid', borderColor: 'divider', boxShadow: '0 2px 12px rgba(0,0,0,0.04)' }}>
+          <Box sx={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', bgcolor: '#1a1a1a', position: 'relative', backgroundImage: 'linear-gradient(135deg, rgba(26,26,26,0.95) 0%, rgba(0,0,0,0.95) 100%)' }}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 3 }}>
+              <Box sx={{ width: 120, height: 120, borderRadius: 3, border: '3px solid', borderColor: 'secondary.main', display: 'flex', alignItems: 'center', justifyContent: 'center', bgcolor: 'rgba(231, 76, 60, 0.1)' }}>
+                <VideocamIcon sx={{ fontSize: 60, color: 'secondary.main' }} />
+              </Box>
+              <Typography variant="h6" sx={{ color: 'white', fontFamily: '"Playfair Display", serif', fontWeight: 600 }}>
+                Video Stream Ready
+              </Typography>
+              <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.6)', textAlign: 'center', maxWidth: 400, px: 3 }}>
+                AI video interaction will be displayed here once backend is connected
+              </Typography>
             </Box>
-
-            {/* Video Controls */}
-            <Box
-              sx={{
-                position: 'absolute',
-                bottom: 0,
-                left: 0,
-                right: 0,
-                p: 2,
-                background: 'linear-gradient(to top, rgba(0,0,0,0.8), transparent)',
-                display: 'flex',
-                alignItems: 'center',
-                gap: 2
-              }}
-            >
-              <IconButton sx={{ color: 'white' }}>
-                <SkipPreviousIcon />
+            <Box sx={{ position: 'absolute', bottom: 0, left: 0, right: 0, p: 3, background: 'linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 100%)', display: 'flex', alignItems: 'center', gap: 2 }}>
+              <IconButton size="small" sx={{ color: 'white', border: '1px solid rgba(255,255,255,0.2)', '&:hover': { bgcolor: 'rgba(255,255,255,0.1)', borderColor: 'secondary.main' } }}>
+                <SkipPreviousIcon fontSize="small" />
               </IconButton>
-              <IconButton sx={{ color: 'white', bgcolor: 'rgba(255,255,255,0.2)' }}>
+              <IconButton sx={{ color: 'white', bgcolor: 'secondary.main', width: 48, height: 48, '&:hover': { bgcolor: 'secondary.dark' } }}>
                 <PlayArrowIcon />
               </IconButton>
-              <IconButton sx={{ color: 'white' }}>
-                <SkipNextIcon />
+              <IconButton size="small" sx={{ color: 'white', border: '1px solid rgba(255,255,255,0.2)', '&:hover': { bgcolor: 'rgba(255,255,255,0.1)', borderColor: 'secondary.main' } }}>
+                <SkipNextIcon fontSize="small" />
               </IconButton>
-              <IconButton sx={{ color: 'white' }}>
-                <VolumeUpIcon />
+              <IconButton size="small" sx={{ color: 'white', border: '1px solid rgba(255,255,255,0.2)', '&:hover': { bgcolor: 'rgba(255,255,255,0.1)', borderColor: 'secondary.main' } }}>
+                <VolumeUpIcon fontSize="small" />
               </IconButton>
               <Box sx={{ flex: 1 }} />
-              <Typography variant="caption" sx={{ color: 'white' }}>
+              <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.8)', fontFamily: 'Inter, sans-serif', letterSpacing: '0.5px' }}>
                 00:00 / 00:00
               </Typography>
             </Box>
           </Box>
-
-          {/* Status Bar */}
-          <Box sx={{ p: 2, bgcolor: 'background.paper', borderTop: 1, borderColor: 'divider' }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 1 }}>
-              <Box sx={{ width: 12, height: 12, borderRadius: '50%', bgcolor: 'error.main' }} />
-              <Typography variant="body2" fontWeight={600}>
-                LIVE - 00:15:32
-              </Typography>
+          <Box sx={{ p: 3, bgcolor: 'background.paper', borderTop: 1, borderColor: 'divider' }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
+              <Box sx={{ width: 10, height: 10, borderRadius: '50%', bgcolor: 'secondary.main', animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite' }} />
+              <Typography variant="overline" sx={{ color: 'secondary.main', fontWeight: 700, letterSpacing: '1px' }}>LIVE SESSION</Typography>
+              <Typography variant="body2" sx={{ color: 'text.secondary', fontFamily: 'monospace', fontSize: '0.875rem' }}>00:15:32</Typography>
             </Box>
-            <Typography variant="body2" color="text.secondary" sx={{ fontStyle: 'italic' }}>
-              "Thank you everyone for joining the design critique meeting. I want everyone's opinion to please start!"
+            <Typography variant="body2" color="text.secondary" sx={{ fontStyle: 'italic', lineHeight: 1.6, pl: 0.5 }}>
+              AI companion is ready to listen and respond with empathy
             </Typography>
           </Box>
         </Paper>
       </Box>
-
-      {/* Right Side - Chat Panel */}
-      <Paper 
-        elevation={3}
-        sx={{ 
-          flex: '0 0 35%',
-          maxWidth: '450px',
-          borderRadius: 3,
-          overflow: 'hidden',
-          display: 'flex',
-          flexDirection: 'column',
-          bgcolor: 'background.paper'
-        }}
-      >
-        {/* Chat Header with Tabs */}
-        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-          <Tabs 
-            value={activeTab} 
-            onChange={(e, newValue) => setActiveTab(newValue)}
-            sx={{
-              '& .MuiTab-root': {
-                minHeight: 56,
-                textTransform: 'none',
-                fontWeight: 600
-              }
-            }}
-          >
-            <Tab label={`Messages (${messages.length})`} />
-            <Tab label="Participants" />
+      <Paper elevation={0} sx={{ flex: '0 0 35%', maxWidth: '450px', borderRadius: 2, overflow: 'hidden', display: 'flex', flexDirection: 'column', bgcolor: 'background.paper', border: '1px solid', borderColor: 'divider', boxShadow: '0 2px 12px rgba(0,0,0,0.04)' }}>
+        <Box sx={{ borderBottom: 1, borderColor: 'divider', bgcolor: '#fafafa' }}>
+          <Tabs value={activeTab} onChange={(e, newValue) => setActiveTab(newValue)} sx={{ '& .MuiTab-root': { minHeight: 56, textTransform: 'none', fontWeight: 600, fontFamily: '"Playfair Display", serif', fontSize: '0.9375rem', color: 'text.secondary', '&.Mui-selected': { color: 'secondary.main' } }, '& .MuiTabs-indicator': { height: 3, bgcolor: 'secondary.main' } }}>
+            <Tab label={`Conversation (${messages.length})`} />
+            <Tab label="Analytics" />
           </Tabs>
         </Box>
-
-        {/* Tab Content */}
         {activeTab === 0 ? (
           <>
-            {/* Messages Area */}
-            <Box sx={{ 
-              flex: 1, 
-              p: 2.5, 
-              overflowY: 'auto',
-              display: 'flex',
-              flexDirection: 'column',
-              bgcolor: theme.palette.grey[50]
-            }}>
+            <Box sx={{ flex: 1, p: 3, overflowY: 'auto', display: 'flex', flexDirection: 'column', bgcolor: '#ffffff', '&::-webkit-scrollbar': { width: '8px' }, '&::-webkit-scrollbar-track': { bgcolor: 'transparent' }, '&::-webkit-scrollbar-thumb': { bgcolor: 'rgba(0,0,0,0.1)', borderRadius: '4px', '&:hover': { bgcolor: 'rgba(0,0,0,0.2)' } } }}>
               {messages.map((message, index) => (
-                <Message
-                  key={index}
-                  text={message.text}
-                  isUser={message.isUser}
-                  timestamp={message.timestamp}
-                  avatar={message.isUser ? "/user-avatar.jpg" : "/ai-avatar.png"}
-                />
+                <Message key={index} text={message.text} isUser={message.isUser} timestamp={message.timestamp} avatar={message.isUser ? "/user-avatar.jpg" : "/ai-avatar.png"} />
               ))}
               <div ref={messagesEndRef} />
             </Box>
-
-            {/* Input Area */}
-            <Box sx={{ 
-              p: 2, 
-              borderTop: 1, 
-              borderColor: 'divider',
-              bgcolor: 'background.paper'
-            }}>
-              <Box sx={{ 
-                display: 'flex', 
-                gap: 1,
-                alignItems: 'flex-end'
-              }}>
-                <TextField
-                  fullWidth
-                  multiline
-                  maxRows={3}
-                  value={inputValue}
-                  onChange={(e) => setInputValue(e.target.value)}
-                  onKeyPress={handleKeyPress}
-                  placeholder="Write message here"
-                  size="small"
-                  sx={{
-                    '& .MuiOutlinedInput-root': {
-                      borderRadius: 3,
-                      bgcolor: theme.palette.grey[50]
-                    }
-                  }}
-                />
-                <IconButton 
-                  onClick={handleSend}
-                  disabled={!inputValue.trim()}
-                  sx={{ 
-                    bgcolor: theme.palette.primary.main,
-                    color: '#fff',
-                    borderRadius: 2,
-                    width: 40,
-                    height: 40,
-                    '&:hover': {
-                      bgcolor: theme.palette.primary.dark
-                    },
-                    '&:disabled': {
-                      bgcolor: theme.palette.grey[300]
-                    }
-                  }}
-                >
-                  <SendIcon />
+            <Box sx={{ p: 3, borderTop: 1, borderColor: 'divider', bgcolor: '#fafafa' }}>
+              <Box sx={{ display: 'flex', gap: 1.5, alignItems: 'flex-end' }}>
+                <TextField fullWidth multiline maxRows={3} value={inputValue} onChange={(e) => setInputValue(e.target.value)} onKeyPress={handleKeyPress} placeholder="Type your message here..." size="small" sx={{ '& .MuiOutlinedInput-root': { borderRadius: 2, bgcolor: '#ffffff', fontFamily: 'Inter, sans-serif', fontSize: '0.9375rem', '&:hover .MuiOutlinedInput-notchedOutline': { borderColor: 'secondary.main' }, '&.Mui-focused .MuiOutlinedInput-notchedOutline': { borderColor: 'secondary.main', borderWidth: '2px' } } }} />
+                <IconButton onClick={handleSend} disabled={!inputValue.trim()} sx={{ bgcolor: 'secondary.main', color: '#fff', borderRadius: 2, width: 44, height: 44, flexShrink: 0, '&:hover': { bgcolor: 'secondary.dark', transform: 'scale(1.05)' }, '&:disabled': { bgcolor: 'rgba(0,0,0,0.12)', color: 'rgba(0,0,0,0.26)' }, transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)' }}>
+                  <SendIcon fontSize="small" />
                 </IconButton>
               </Box>
-              
-              {/* Action Buttons */}
-              <Box sx={{ display: 'flex', gap: 1, mt: 1.5, justifyContent: 'space-between' }}>
+              <Box sx={{ display: 'flex', gap: 1, mt: 2, justifyContent: 'space-between', alignItems: 'center' }}>
                 <Box sx={{ display: 'flex', gap: 1 }}>
-                  <IconButton 
-                    size="small"
-                    onClick={() => setIsRecording(!isRecording)}
-                    sx={{ 
-                      color: isRecording ? 'error.main' : 'text.secondary',
-                      '&:hover': { bgcolor: 'action.hover' }
-                    }}
-                  >
-                    <MicIcon />
+                  <IconButton size="small" onClick={() => setIsRecording(!isRecording)} sx={{ color: isRecording ? 'secondary.main' : 'text.secondary', border: '1px solid', borderColor: isRecording ? 'secondary.main' : 'divider', '&:hover': { bgcolor: isRecording ? 'rgba(231, 76, 60, 0.08)' : 'action.hover', borderColor: 'secondary.main' } }}>
+                    <MicIcon fontSize="small" />
                   </IconButton>
-                  <IconButton size="small" sx={{ color: 'text.secondary' }}>
-                    <AttachFileIcon />
+                  <IconButton size="small" sx={{ color: 'text.secondary', border: '1px solid', borderColor: 'divider', '&:hover': { borderColor: 'secondary.main', color: 'secondary.main' } }}>
+                    <AttachFileIcon fontSize="small" />
                   </IconButton>
-                  <IconButton size="small" sx={{ color: 'text.secondary' }}>
-                    <EmojiEmotionsIcon />
+                  <IconButton size="small" sx={{ color: 'text.secondary', border: '1px solid', borderColor: 'divider', '&:hover': { borderColor: 'secondary.main', color: 'secondary.main' } }}>
+                    <EmojiEmotionsIcon fontSize="small" />
                   </IconButton>
                 </Box>
                 {isRecording && (
-                  <Chip 
-                    label="Recording..." 
-                    color="error" 
-                    size="small"
-                    icon={<Box sx={{ 
-                      width: 8, 
-                      height: 8, 
-                      borderRadius: '50%', 
-                      bgcolor: 'error.dark',
-                      animation: 'pulse 1.5s infinite'
-                    }} />}
-                  />
+                  <Chip label="Recording..." size="small" sx={{ bgcolor: 'secondary.main', color: 'white', fontWeight: 600, fontSize: '0.75rem', height: 28, '& .MuiChip-icon': { color: 'white' } }} icon={<Box sx={{ width: 8, height: 8, borderRadius: '50%', bgcolor: 'white', animation: 'pulse 1.5s infinite' }} />} />
                 )}
               </Box>
             </Box>
           </>
         ) : (
-          // Participants Tab
-          <Box sx={{ flex: 1, p: 2.5, overflowY: 'auto' }}>
-            <Typography variant="subtitle2" color="text.secondary" sx={{ mb: 2 }}>
-              Statistics
+          <Box sx={{ flex: 1, p: 3, overflowY: 'auto', bgcolor: '#ffffff' }}>
+            <Typography variant="overline" sx={{ color: 'secondary.main', fontWeight: 700, letterSpacing: '1.2px', mb: 3, display: 'block' }}>
+              Emotion Analytics
             </Typography>
-            
-            {/* Use of Graphics Statistics */}
-            <Paper 
-              elevation={0} 
-              sx={{ 
-                p: 2, 
-                mb: 2, 
-                bgcolor: theme.palette.primary.main,
-                color: 'white',
-                borderRadius: 2
-              }}
-            >
-              <Typography variant="subtitle2" sx={{ mb: 2 }}>
-                Use of Graphics
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mb: 3 }}>
+              <Paper elevation={0} sx={{ p: 3, border: '1px solid', borderColor: 'divider', borderLeft: '3px solid', borderLeftColor: '#f39c12', borderRadius: 2, transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)', '&:hover': { boxShadow: '0 4px 12px rgba(0,0,0,0.08)', transform: 'translateX(4px)' } }}>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+                  <Typography variant="body2" sx={{ fontFamily: '"Playfair Display", serif', fontWeight: 600 }}>Happiness Level</Typography>
+                  <Typography variant="h6" sx={{ fontFamily: '"Playfair Display", serif', fontWeight: 700, color: '#f39c12' }}>{statistics.happiness}%</Typography>
+                </Box>
+                <LinearProgress variant="determinate" value={statistics.happiness} sx={{ height: 8, borderRadius: 1, bgcolor: 'rgba(243, 156, 18, 0.1)', '& .MuiLinearProgress-bar': { bgcolor: '#f39c12', borderRadius: 1 } }} />
+              </Paper>
+              <Paper elevation={0} sx={{ p: 3, border: '1px solid', borderColor: 'divider', borderLeft: '3px solid', borderLeftColor: 'secondary.main', borderRadius: 2, transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)', '&:hover': { boxShadow: '0 4px 12px rgba(0,0,0,0.08)', transform: 'translateX(4px)' } }}>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+                  <Typography variant="body2" sx={{ fontFamily: '"Playfair Display", serif', fontWeight: 600 }}>Stress Level</Typography>
+                  <Typography variant="h6" sx={{ fontFamily: '"Playfair Display", serif', fontWeight: 700, color: 'secondary.main' }}>{statistics.stress}%</Typography>
+                </Box>
+                <LinearProgress variant="determinate" value={statistics.stress} sx={{ height: 8, borderRadius: 1, bgcolor: 'rgba(231, 76, 60, 0.1)', '& .MuiLinearProgress-bar': { bgcolor: 'secondary.main', borderRadius: 1 } }} />
+              </Paper>
+              <Paper elevation={0} sx={{ p: 3, border: '1px solid', borderColor: 'divider', borderLeft: '3px solid', borderLeftColor: '#1a1a1a', borderRadius: 2, transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)', '&:hover': { boxShadow: '0 4px 12px rgba(0,0,0,0.08)', transform: 'translateX(4px)' } }}>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+                  <Typography variant="body2" sx={{ fontFamily: '"Playfair Display", serif', fontWeight: 600 }}>Engagement Score</Typography>
+                  <Typography variant="h6" sx={{ fontFamily: '"Playfair Display", serif', fontWeight: 700, color: '#1a1a1a' }}>{statistics.engagement}%</Typography>
+                </Box>
+                <LinearProgress variant="determinate" value={statistics.engagement} sx={{ height: 8, borderRadius: 1, bgcolor: 'rgba(26, 26, 26, 0.1)', '& .MuiLinearProgress-bar': { bgcolor: '#1a1a1a', borderRadius: 1 } }} />
+              </Paper>
+            </Box>
+            <Divider sx={{ my: 3 }} />
+            <Typography variant="overline" sx={{ color: 'secondary.main', fontWeight: 700, letterSpacing: '1.2px', mb: 2, display: 'block' }}>
+              AI Insights
+            </Typography>
+            <Paper elevation={0} sx={{ p: 3, border: '1px solid', borderColor: 'divider', borderRadius: 2, bgcolor: '#fafafa' }}>
+              <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.8, fontStyle: 'italic' }}>
+                Real-time emotion analysis and conversation insights will be displayed here once AI backend is connected. 
+                The system will track sentiment, engagement patterns, and provide personalized recommendations.
               </Typography>
-              <Box sx={{ mb: 2 }}>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.5 }}>
-                  <Typography variant="caption">Happiness</Typography>
-                  <Typography variant="caption">{statistics.happiness}%</Typography>
-                </Box>
-                <LinearProgress 
-                  variant="determinate" 
-                  value={statistics.happiness}
-                  sx={{
-                    height: 6,
-                    borderRadius: 1,
-                    bgcolor: 'rgba(255,255,255,0.3)',
-                    '& .MuiLinearProgress-bar': {
-                      bgcolor: 'white'
-                    }
-                  }}
-                />
-              </Box>
-              <Box>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.5 }}>
-                  <Typography variant="caption">Stress</Typography>
-                  <Typography variant="caption">{statistics.stress}%</Typography>
-                </Box>
-                <LinearProgress 
-                  variant="determinate" 
-                  value={statistics.stress}
-                  sx={{
-                    height: 6,
-                    borderRadius: 1,
-                    bgcolor: 'rgba(255,255,255,0.3)',
-                    '& .MuiLinearProgress-bar': {
-                      bgcolor: 'white'
-                    }
-                  }}
-                />
-              </Box>
             </Paper>
-
-            <Divider sx={{ my: 2 }} />
-
-            {/* Participant List */}
-            <Typography variant="subtitle2" color="text.secondary" sx={{ mb: 2 }}>
-              Participants (3)
-            </Typography>
-            
-            {[
-              { name: 'Jack', status: 'approved', avatar: 'J' },
-              { name: 'Sarah', status: 'better', avatar: 'S' },
-              { name: 'Lisa', status: 'speaking', avatar: 'L' }
-            ].map((participant, index) => (
-              <Box 
-                key={index}
-                sx={{ 
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 2,
-                  mb: 2,
-                  p: 1.5,
-                  borderRadius: 2,
-                  bgcolor: theme.palette.grey[50],
-                  '&:hover': {
-                    bgcolor: theme.palette.grey[100]
-                  }
-                }}
-              >
-                <Avatar sx={{ bgcolor: theme.palette.primary.main }}>
-                  {participant.avatar}
-                </Avatar>
-                <Box sx={{ flex: 1 }}>
-                  <Typography variant="body2" fontWeight={600}>
-                    {participant.name}
-                  </Typography>
-                  <Chip 
-                    label={participant.status}
-                    size="small"
-                    sx={{ 
-                      mt: 0.5,
-                      height: 20,
-                      fontSize: '0.7rem',
-                      bgcolor: theme.palette.primary.main,
-                      color: 'white'
-                    }}
-                  />
-                </Box>
-              </Box>
-            ))}
           </Box>
         )}
       </Paper>
-
-      {/* Add pulse animation for recording indicator */}
-      <style>
-        {`
-          @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-          }
-        `}
-      </style>
+      <style>{`@keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.6; transform: scale(1.1); } }`}</style>
     </Box>
   );
 }

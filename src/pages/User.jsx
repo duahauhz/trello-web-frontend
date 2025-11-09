@@ -1,4 +1,4 @@
-import { 
+﻿import { 
   Box, 
   Container, 
   Typography, 
@@ -9,101 +9,78 @@ import {
   DialogContent,
   DialogActions,
   TextField,
-  Paper
-} from "@mui/material";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import PhoneIcon from "@mui/icons-material/Phone";
-import EmailIcon from "@mui/icons-material/Email";
-import HomeIcon from "@mui/icons-material/Home";
-import PersonIcon from "@mui/icons-material/Person";
-import CloseIcon from '@mui/icons-material/Close';
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import Header from "../components/Header";
+  Paper,
+  Divider,
+  Avatar
+} from '@mui/material';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import PhoneIcon from '@mui/icons-material/Phone';
+import EmailIcon from '@mui/icons-material/Email';
+import HomeIcon from '@mui/icons-material/Home';
+import PersonIcon from '@mui/icons-material/Person';
+import EditIcon from '@mui/icons-material/Edit';
+import CakeIcon from '@mui/icons-material/Cake';
+import Header from '../components/Header';
+import { useAuth } from '../context/AuthContext';
 
-import { useAuth } from "../context/AuthContext";
-
-const InfoItem = ({ icon, label, value }) => (
-  <Box 
-    sx={{ 
-      display: "flex", 
-      alignItems: "center", 
-      gap: 3,
-      p: 2,
-      borderRadius: 3,
-      cursor: "pointer",
-      position: "relative",
-      transition: "all 0.3s ease",
-      "&::before": {
-        content: '""',
-        position: "absolute",
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        borderRadius: 3,
-        border: "2px solid transparent",
-        transition: "all 0.3s ease",
-      },
-      "&:hover": {
-        bgcolor: "rgba(0, 131, 143, 0.05)",
-        transform: "translateX(8px)",
-        "&::before": {
-          border: "2px solid rgba(0, 131, 143, 0.2)",
-        },
-        "& .info-icon-button": {
-          transform: "scale(1.1) rotate(5deg)",
-          boxShadow: "0 8px 20px rgba(0, 131, 143, 0.2)",
-        },
-        "& .info-label": {
-          color: "#00838f",
-        },
-        "& .info-value": {
-          transform: "translateX(5px)",
-          color: "#006064",
-        }
+const InfoItem = ({ icon: Icon, label, value }) => (
+  <Box
+    sx={{
+      display: 'flex',
+      alignItems: 'center',
+      gap: 2,
+      p: 3,
+      borderRadius: 2,
+      border: '1px solid',
+      borderColor: 'divider',
+      borderLeft: '3px solid transparent',
+      transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+      '&:hover': {
+        borderLeftColor: 'secondary.main',
+        boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
+        transform: 'translateX(4px)'
       }
     }}
   >
-    <IconButton 
-      className="info-icon-button"
-      sx={{ 
-        bgcolor: "#e1f5fe", 
-        color: "#00838f",
-        width: 72,
-        height: 72,
-        boxShadow: "0 4px 12px rgba(0, 131, 143, 0.12)",
-        transition: "all 0.3s ease",
-        "&:hover": {
-          bgcolor: "#b3e5fc",
-        },
+    <Box
+      sx={{
+        width: 48,
+        height: 48,
+        borderRadius: '50%',
+        border: '2px solid',
+        borderColor: 'secondary.main',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexShrink: 0,
+        bgcolor: 'rgba(231, 76, 60, 0.05)'
       }}
     >
-      {icon}
-    </IconButton>
-    <Box sx={{ transition: "all 0.3s ease" }}>
-      <Typography 
-        className="info-label"
-        variant="subtitle1" 
+      <Icon sx={{ fontSize: 24, color: 'secondary.main' }} />
+    </Box>
+    <Box sx={{ flex: 1 }}>
+      <Typography
+        variant="caption"
         sx={{
-          fontSize: "0.95rem",
-          fontWeight: 500,
+          color: 'text.secondary',
+          fontSize: '0.75rem',
+          textTransform: 'uppercase',
+          letterSpacing: '0.5px',
+          fontWeight: 600,
           mb: 0.5,
-          color: "rgba(0, 0, 0, 0.6)",
-          transition: "all 0.3s ease",
+          display: 'block'
         }}
       >
         {label}
       </Typography>
-      <Typography 
-        className="info-value"
-        variant="h6"
+      <Typography
+        variant="body1"
         sx={{
+          color: 'text.primary',
           fontWeight: 600,
-          color: "#2c3e50",
-          fontSize: "1.25rem",
-          transition: "all 0.3s ease",
+          fontSize: '1rem'
         }}
       >
         {value}
@@ -117,21 +94,21 @@ export default function User() {
   const { user, updateUser } = useAuth();
   const [openEdit, setOpenEdit] = useState(false);
   const [editData, setEditData] = useState({
-    name: user?.name || "",
-    age: user?.age || "",
-    phone: user?.phone || "",
-    email: user?.email || "",
-    address: user?.address || "",
-    avatar: user?.avatar || ""
+    name: user?.name || '',
+    age: user?.age || '',
+    phone: user?.phone || '',
+    email: user?.email || '',
+    address: user?.address || '',
+    avatar: user?.avatar || ''
   });
 
   const handleEditOpen = () => {
     setEditData({
-      name: user?.name || "",
-      age: user?.age || "",
-      phone: user?.phone || "",
-      email: user?.email || "",
-      address: user?.address || ""
+      name: user?.name || '',
+      age: user?.age || '',
+      phone: user?.phone || '',
+      email: user?.email || '',
+      address: user?.address || ''
     });
     setOpenEdit(true);
   };
@@ -141,9 +118,7 @@ export default function User() {
   };
 
   const handleEditSave = () => {
-    // TODO: Implement save changes to backend
     console.log('Saving changes:', editData);
-    // Cập nhật thông tin user trong AuthContext
     if (updateUser) {
       updateUser({
         ...user,
@@ -154,409 +129,230 @@ export default function User() {
   };
 
   return (
-    <Box 
-      sx={{ 
-        minHeight: "100vh", 
-        display: "flex", 
-        flexDirection: "column",
-        position: "relative",
-        overflow: "hidden",
-        "&::before": {
-          content: '""',
-          position: "fixed",
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          background: "radial-gradient(circle at 10% 10%, rgba(0, 131, 143, 0.03) 0%, transparent 50%)",
-          animation: "moveGradient 15s ease infinite",
-          pointerEvents: "none",
-          zIndex: 0,
-        },
-        "&::after": {
-          content: '""',
-          position: "fixed",
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          background: "radial-gradient(circle at 90% 90%, rgba(0, 172, 193, 0.03) 0%, transparent 50%)",
-          animation: "moveGradient2 18s ease infinite",
-          pointerEvents: "none",
-          zIndex: 0,
-        },
-        "@keyframes moveGradient": {
-          "0%": {
-            transform: "translate(0, 0)",
-          },
-          "25%": {
-            transform: "translate(10%, 10%)",
-          },
-          "50%": {
-            transform: "translate(0, 20%)",
-          },
-          "75%": {
-            transform: "translate(-10%, 10%)",
-          },
-          "100%": {
-            transform: "translate(0, 0)",
-          },
-        },
-        "@keyframes moveGradient2": {
-          "0%": {
-            transform: "translate(0, 0)",
-          },
-          "25%": {
-            transform: "translate(-10%, -10%)",
-          },
-          "50%": {
-            transform: "translate(0, -20%)",
-          },
-          "75%": {
-            transform: "translate(10%, -10%)",
-          },
-          "100%": {
-            transform: "translate(0, 0)",
-          },
-        },
-      }}
-    >
-      <Box 
-        sx={{ 
-          position: "absolute", 
-          top: "10%", 
-          left: "5%", 
-          width: "20px", 
-          height: "20px", 
-          borderRadius: "50%",
-          background: "rgba(0, 131, 143, 0.1)",
-          animation: "float 8s ease-in-out infinite",
-          pointerEvents: "none",
-          zIndex: 0,
-        }}
-      />
-      <Box 
-        sx={{ 
-          position: "absolute", 
-          top: "60%", 
-          right: "8%", 
-          width: "35px", 
-          height: "35px", 
-          borderRadius: "50%",
-          background: "rgba(0, 172, 193, 0.1)",
-          animation: "float2 10s ease-in-out infinite",
-          pointerEvents: "none",
-          zIndex: 0,
-          "@keyframes float": {
-            "0%, 100%": {
-              transform: "translateY(0) scale(1)",
-            },
-            "50%": {
-              transform: "translateY(-20px) scale(1.1)",
-            },
-          },
-          "@keyframes float2": {
-            "0%, 100%": {
-              transform: "translateY(0) scale(1)",
-            },
-            "50%": {
-              transform: "translateY(20px) scale(1.1)",
-            },
-          },
-        }}
-      />
-      <Box sx={{ position: 'relative', zIndex: 2, width: '100%' }}>
-        <Header />
-      </Box>
+    <Box sx={{ minHeight: '100vh', bgcolor: '#fafafa' }}>
+      <Header />
 
-      <Container 
-        maxWidth="lg" 
-        sx={{ 
-          flex: 1,
-          py: 6,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          position: 'relative',
-          zIndex: 1,
-        }}
-      >
+      <Container maxWidth="lg" sx={{ py: 6 }}>
         <Button
-          onClick={() => navigate("/")}
+          onClick={() => navigate('/')}
           startIcon={<ArrowBackIcon />}
           sx={{
-            alignSelf: 'flex-start',
             mb: 4,
-            color: "#00838f",
-            "&:hover": {
-              backgroundColor: "rgba(0, 131, 143, 0.08)",
-            },
+            color: 'text.secondary',
+            textTransform: 'none',
+            fontWeight: 600,
+            '&:hover': {
+              color: 'secondary.main',
+              bgcolor: 'rgba(231, 76, 60, 0.05)'
+            }
           }}
         >
           Quay lại trang chủ
         </Button>
 
         <Paper
-          elevation={3}
+          elevation={0}
           sx={{
-            width: "100%",
-            maxWidth: "1000px",
-            borderRadius: 3,
-            overflow: "hidden",
-            p: 6,
-            bgcolor: "#ffffff",
-            boxShadow: "0 10px 40px rgba(0, 131, 143, 0.1)",
+            p: 4,
+            borderRadius: 2,
+            border: '1px solid',
+            borderColor: 'divider'
           }}
         >
-          <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 5 }}>
-            <Typography 
-              variant="h2" 
-              sx={{ 
-                fontWeight: "bold",
-                color: "#00838f",
-                mb: 2,
+          {/* Header Section */}
+          <Box sx={{ mb: 4 }}>
+            <Typography
+              variant="overline"
+              sx={{
+                color: 'secondary.main',
+                fontWeight: 700,
+                letterSpacing: '1.5px',
+                display: 'block',
+                mb: 1
               }}
             >
-              {user?.name || "Nguyễn Văn A"}
+              THÔNG TIN CÁ NHÂN
             </Typography>
+            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 2 }}>
+              <Typography
+                variant="h3"
+                sx={{
+                  fontFamily: '"Playfair Display", serif',
+                  fontWeight: 700,
+                  color: 'text.primary'
+                }}
+              >
+                Hồ sơ của tôi
+              </Typography>
+              <Button
+                variant="contained"
+                startIcon={<EditIcon />}
+                onClick={handleEditOpen}
+                sx={{
+                  bgcolor: 'secondary.main',
+                  textTransform: 'none',
+                  fontWeight: 600,
+                  px: 3,
+                  py: 1.5,
+                  borderRadius: 2,
+                  boxShadow: '0 4px 12px rgba(231, 76, 60, 0.25)',
+                  '&:hover': {
+                    bgcolor: 'secondary.dark',
+                    transform: 'translateY(-2px)',
+                    boxShadow: '0 6px 16px rgba(231, 76, 60, 0.35)'
+                  },
+                  transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
+                }}
+              >
+                Chỉnh sửa
+              </Button>
+            </Box>
+          </Box>
 
-            <Box sx={{ display: "flex", gap: 10, width: "100%" }}>
-              {/* Left side - Avatar */}
+          <Divider sx={{ mb: 4 }} />
+
+          {/* Profile Content */}
+          <Box sx={{ display: 'flex', gap: 4, flexDirection: { xs: 'column', md: 'row' } }}>
+            {/* Avatar Section */}
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                gap: 3,
+                flexShrink: 0
+              }}
+            >
               <Box
                 sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "start",
-                  flexShrink: 0,
-                  position: "relative",
-                  "&::after": {
+                  position: 'relative',
+                  '&::before': {
                     content: '""',
-                    position: "absolute",
-                    top: 20,
-                    left: 20,
-                    right: -20,
-                    bottom: -20,
-                    borderRadius: "25px",
-                    background: "linear-gradient(135deg, rgba(0, 131, 143, 0.1), rgba(0, 131, 143, 0.05))",
-                    zIndex: 0
+                    position: 'absolute',
+                    top: -8,
+                    left: -8,
+                    right: -8,
+                    bottom: -8,
+                    borderRadius: '50%',
+                    border: '2px solid',
+                    borderColor: 'divider',
+                    opacity: 0.3
                   }
                 }}
               >
-                <Box
-                  component="img"
-                  src={user?.avatar || "https://i.pravatar.cc/300"}
-                  alt="User avatar"
+                <Avatar
+                  src={user?.avatar || 'https://i.pravatar.cc/300'}
+                  alt={user?.name}
                   sx={{
-                    width: "300px",
-                    height: "300px",
-                    borderRadius: "25px",
-                    objectFit: "cover",
-                    boxShadow: "0 8px 24px rgba(0, 0, 0, 0.12)",
-                    transition: "transform 0.3s ease, box-shadow 0.3s ease",
-                    position: "relative",
-                    zIndex: 1,
-                    "&:hover": {
-                      transform: "scale(1.02)",
-                      boxShadow: "0 12px 32px rgba(0, 0, 0, 0.18)",
-                    }
+                    width: 200,
+                    height: 200,
+                    border: '4px solid',
+                    borderColor: '#ffffff',
+                    boxShadow: '0 8px 24px rgba(0,0,0,0.12)'
                   }}
                 />
               </Box>
-
-              {/* Right side - Info */}
-              <Box sx={{ 
-                flex: 1, 
-                display: "flex", 
-                flexDirection: "column", 
-                gap: 4,
-                bgcolor: "rgba(0, 131, 143, 0.02)",
-                p: 4,
-                borderRadius: 4,
-                position: "relative",
-                zIndex: 2,
-              }}>
-                {/* Age */}
-                <InfoItem
-                  icon={<PersonIcon sx={{ fontSize: 32 }} />}
-                  label="Tuổi"
-                  value={user?.age || "65"}
-                />
-                
-                {/* Phone */}
-                <InfoItem
-                  icon={<PhoneIcon sx={{ fontSize: 32 }} />}
-                  label="Số điện thoại"
-                  value={user?.phone || "0123 456 789"}
-                />
-                
-                {/* Email */}
-                <InfoItem
-                  icon={<EmailIcon sx={{ fontSize: 32 }} />}
-                  label="Email"
-                  value={user?.email || "a@example.com"}
-                />
-                
-                {/* Address */}
-                <InfoItem
-                  icon={<HomeIcon sx={{ fontSize: 32 }} />}
-                  label="Địa chỉ"
-                  value={user?.address || "123 Đường ABC, Quận XYZ, TP.HCM"}
-                />
+              <Box sx={{ textAlign: 'center' }}>
+                <Typography
+                  variant="h5"
+                  sx={{
+                    fontFamily: '"Playfair Display", serif',
+                    fontWeight: 700,
+                    color: 'text.primary',
+                    mb: 0.5
+                  }}
+                >
+                  {user?.name || 'Nguyễn Văn A'}
+                </Typography>
+                <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                  Thành viên
+                </Typography>
               </Box>
             </Box>
 
-            {/* Edit Button */}
-            <Button
-              variant="contained"
-              onClick={handleEditOpen}
-              sx={{
-                width: "220px",
-                height: "56px",
-                bgcolor: "#00838f",
-                color: "white",
-                fontSize: "18px",
-                fontWeight: "bold",
-                borderRadius: "12px",
-                transition: "all 0.3s ease",
-                mt: 2,
-                whiteSpace: "nowrap",
-                background: "linear-gradient(45deg, #00838f 30%, #00acc1 90%)",
-                boxShadow: "0 6px 20px rgba(0, 131, 143, 0.3)",
-                "&:hover": {
-                  background: "linear-gradient(45deg, #006064 30%, #0097a7 90%)",
-                  transform: "translateY(-3px) scale(1.02)",
-                  boxShadow: "0 8px 25px rgba(0, 131, 143, 0.4)",
-                },
-                "&:active": {
-                  transform: "translateY(-1px)",
-                  boxShadow: "0 5px 15px rgba(0, 131, 143, 0.3)",
-                },
-                "&::before": {
-                  content: '""',
-                  position: "absolute",
-                  top: "0",
-                  left: "0",
-                  right: "0",
-                  bottom: "0",
-                  background: "linear-gradient(45deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 100%)",
-                  transform: "translateX(-100%)",
-                  transition: "transform 0.6s ease",
-                },
-                "&:hover::before": {
-                  transform: "translateX(100%)",
-                },
-              }}
-            >
-              Chỉnh sửa thông tin
-            </Button>
+            {/* Information Section */}
+            <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 2 }}>
+              <InfoItem
+                icon={CakeIcon}
+                label="Tuổi"
+                value={user?.age || '65'}
+              />
+              <InfoItem
+                icon={PhoneIcon}
+                label="Số điện thoại"
+                value={user?.phone || '0123 456 789'}
+              />
+              <InfoItem
+                icon={EmailIcon}
+                label="Email"
+                value={user?.email || 'a@example.com'}
+              />
+              <InfoItem
+                icon={HomeIcon}
+                label="Địa chỉ"
+                value={user?.address || '123 Đường ABC, Quận XYZ, TP.HCM'}
+              />
+            </Box>
           </Box>
         </Paper>
       </Container>
 
       {/* Edit Dialog */}
-      <Dialog 
-        open={openEdit} 
+      <Dialog
+        open={openEdit}
         onClose={handleEditClose}
         maxWidth="sm"
         fullWidth
-        PaperProps={{
-          sx: {
-            borderRadius: 3,
-            boxShadow: "0 8px 32px rgba(0, 131, 143, 0.2)",
-            overflow: "hidden"
-          }
-        }}
       >
-        <DialogTitle 
-          sx={{ 
-            color: "#00838f", 
-            fontSize: "1.5rem",
-            fontWeight: "bold",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            borderBottom: "1px solid rgba(0, 131, 143, 0.1)",
-            p: 3,
+        <DialogTitle
+          sx={{
+            fontFamily: '"Playfair Display", serif',
+            fontWeight: 700,
+            display: 'flex',
+            alignItems: 'center',
+            gap: 1
           }}
         >
-          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-            <PersonIcon sx={{ fontSize: 28 }} />
-            Chỉnh sửa thông tin
-          </Box>
-          <IconButton 
-            onClick={handleEditClose} 
-            sx={{
-              color: "rgba(0, 0, 0, 0.54)",
-              "&:hover": {
-                bgcolor: "rgba(0, 131, 143, 0.08)",
-                color: "#00838f",
-              }
-            }}
-          >
-            <CloseIcon />
-          </IconButton>
+          <PersonIcon sx={{ color: 'secondary.main' }} />
+          Chỉnh sửa thông tin
         </DialogTitle>
-
-        <DialogContent sx={{ p: 3 }}>
-          <Box sx={{ 
-            display: "flex", 
-            flexDirection: "column", 
-            gap: 3, 
-            mt: 1,
-            "& .MuiTextField-root": {
-              "& .MuiOutlinedInput-root": {
-                borderRadius: 2,
-                "&:hover fieldset": {
-                  borderColor: "#00838f",
-                },
-                "&.Mui-focused fieldset": {
-                  borderColor: "#00838f",
-                }
-              },
-              "& .MuiInputLabel-root.Mui-focused": {
-                color: "#00838f",
-              }
-            }
-          }}>
-            {/* Avatar Edit Section */}
-            <Box sx={{ 
-              display: "flex", 
-              flexDirection: "column", 
-              alignItems: "center",
-              gap: 2,
-              p: 3,
-              bgcolor: "rgba(0, 131, 143, 0.04)",
-              borderRadius: 3,
-              position: "relative",
-              overflow: "hidden"
-            }}>
-              <Box
-                component="img"
-                src={editData.avatar || "https://i.pravatar.cc/150"}
-                alt="Edit avatar"
+        <Divider />
+        <DialogContent sx={{ pt: 3 }}>
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+            {/* Avatar Preview */}
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                gap: 2,
+                p: 3,
+                bgcolor: '#fafafa',
+                borderRadius: 2
+              }}
+            >
+              <Avatar
+                src={editData.avatar || 'https://i.pravatar.cc/150'}
+                alt="Avatar"
                 sx={{
-                  width: "150px",
-                  height: "150px",
-                  borderRadius: "50%",
-                  objectFit: "cover",
-                  border: "4px solid white",
-                  boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
-                  transition: "transform 0.3s ease",
-                  "&:hover": {
-                    transform: "scale(1.05)",
-                  }
+                  width: 120,
+                  height: 120,
+                  border: '4px solid',
+                  borderColor: '#ffffff',
+                  boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
                 }}
               />
               <Button
                 component="label"
                 variant="outlined"
-                startIcon={<CloudUploadIcon />}
+                size="small"
                 sx={{
-                  color: "#00838f",
-                  borderColor: "#00838f",
-                  "&:hover": {
-                    borderColor: "#006064",
-                    bgcolor: "rgba(0, 131, 143, 0.08)",
+                  color: 'text.secondary',
+                  borderColor: 'divider',
+                  textTransform: 'none',
+                  '&:hover': {
+                    borderColor: 'secondary.main',
+                    color: 'secondary.main'
                   }
                 }}
               >
@@ -568,11 +364,9 @@ export default function User() {
                   onChange={(e) => {
                     const file = e.target.files[0];
                     if (file) {
-                      // TODO: Implement image upload logic here
-                      // For now, just preview the image
                       const reader = new FileReader();
                       reader.onload = (e) => {
-                        setEditData({...editData, avatar: e.target.result});
+                        setEditData({ ...editData, avatar: e.target.result });
                       };
                       reader.readAsDataURL(file);
                     }
@@ -581,65 +375,113 @@ export default function User() {
               </Button>
             </Box>
 
-            {/* Text Fields */}
+            {/* Form Fields */}
             <TextField
               label="Tên"
               fullWidth
               value={editData.name}
-              onChange={(e) => setEditData({...editData, name: e.target.value})}
+              onChange={(e) => setEditData({ ...editData, name: e.target.value })}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  '&:hover .MuiOutlinedInput-notchedOutline': {
+                    borderColor: 'secondary.main'
+                  },
+                  '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                    borderColor: 'secondary.main'
+                  }
+                }
+              }}
             />
             <TextField
               label="Tuổi"
               fullWidth
+              type="number"
               value={editData.age}
-              onChange={(e) => setEditData({...editData, age: e.target.value})}
+              onChange={(e) => setEditData({ ...editData, age: e.target.value })}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  '&:hover .MuiOutlinedInput-notchedOutline': {
+                    borderColor: 'secondary.main'
+                  },
+                  '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                    borderColor: 'secondary.main'
+                  }
+                }
+              }}
             />
             <TextField
               label="Số điện thoại"
               fullWidth
               value={editData.phone}
-              onChange={(e) => setEditData({...editData, phone: e.target.value})}
+              onChange={(e) => setEditData({ ...editData, phone: e.target.value })}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  '&:hover .MuiOutlinedInput-notchedOutline': {
+                    borderColor: 'secondary.main'
+                  },
+                  '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                    borderColor: 'secondary.main'
+                  }
+                }
+              }}
             />
             <TextField
               label="Email"
               fullWidth
+              type="email"
               value={editData.email}
-              onChange={(e) => setEditData({...editData, email: e.target.value})}
+              onChange={(e) => setEditData({ ...editData, email: e.target.value })}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  '&:hover .MuiOutlinedInput-notchedOutline': {
+                    borderColor: 'secondary.main'
+                  },
+                  '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                    borderColor: 'secondary.main'
+                  }
+                }
+              }}
             />
             <TextField
               label="Địa chỉ"
               fullWidth
               multiline
-              rows={2}
+              rows={3}
               value={editData.address}
-              onChange={(e) => setEditData({...editData, address: e.target.value})}
+              onChange={(e) => setEditData({ ...editData, address: e.target.value })}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  '&:hover .MuiOutlinedInput-notchedOutline': {
+                    borderColor: 'secondary.main'
+                  },
+                  '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                    borderColor: 'secondary.main'
+                  }
+                }
+              }}
             />
           </Box>
         </DialogContent>
-
-        <DialogActions sx={{ p: 3, borderTop: "1px solid rgba(0, 131, 143, 0.1)" }}>
-          <Button 
-            onClick={handleEditClose} 
-            sx={{ 
-              color: "#666",
-              px: 3,
-              "&:hover": {
-                bgcolor: "rgba(0, 0, 0, 0.04)",
-              }
+        <DialogActions sx={{ p: 3 }}>
+          <Button
+            onClick={handleEditClose}
+            sx={{
+              color: 'text.secondary',
+              textTransform: 'none',
+              fontWeight: 600
             }}
           >
-            Hủy bỏ
+            Hủy
           </Button>
-          <Button 
+          <Button
             onClick={handleEditSave}
             variant="contained"
-            sx={{ 
-              px: 3,
-              bgcolor: "#00838f",
-              background: "linear-gradient(45deg, #00838f 30%, #00acc1 90%)",
-              boxShadow: "0 2px 8px rgba(0, 131, 143, 0.3)",
-              "&:hover": {
-                background: "linear-gradient(45deg, #006064 30%, #0097a7 90%)",
+            sx={{
+              bgcolor: 'secondary.main',
+              textTransform: 'none',
+              fontWeight: 600,
+              '&:hover': {
+                bgcolor: 'secondary.dark'
               }
             }}
           >
@@ -649,5 +491,4 @@ export default function User() {
       </Dialog>
     </Box>
   );
-
 }

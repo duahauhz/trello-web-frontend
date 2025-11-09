@@ -11,6 +11,7 @@ import {
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
+import TimerIcon from '@mui/icons-material/Timer';
 
 export default function MusicVideos({ onVideoClick }) {
   const [currentPage, setCurrentPage] = useState(0);
@@ -122,64 +123,84 @@ export default function MusicVideos({ onVideoClick }) {
 
   return (
     <Box sx={{ mb: 8 }} id="music-videos">
-      {/* Header với gradient background */}
-      <Box 
-        sx={{ 
-          background: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)',
-          borderRadius: 4,
-          p: 4,
-          mb: 4,
-          color: 'white',
-          position: 'relative',
-          overflow: 'hidden',
-          '&::before': {
-            content: '""',
-            position: 'absolute',
-            top: 0,
-            right: 0,
-            width: '200px',
-            height: '200px',
-            background: 'radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%)',
-            borderRadius: '50%',
-            transform: 'translate(50%, -50%)'
-          }
-        }}
-      >
-        <Box sx={{ position: 'relative', zIndex: 1 }}>
-          <Typography variant="h4" sx={{ fontWeight: 800, mb: 1, display: 'flex', alignItems: 'center', gap: 1 }}>
-            🎵 Âm Nhạc Giải Trí
+      {/* Header */}
+      <Box sx={{ mb: 4 }}>
+        <Box sx={{ textAlign: 'center', mb: 4 }}>
+          <Typography 
+            variant="overline"
+            sx={{
+              color: 'secondary.main',
+              fontWeight: 600,
+              letterSpacing: '0.15em',
+              fontSize: '0.875rem',
+              mb: 1,
+              display: 'block'
+            }}
+          >
+            ÂM NHẠC GIẢI TRÍ
           </Typography>
-          <Typography variant="body1" sx={{ opacity: 0.95, mb: 3 }}>
+          <Typography 
+            variant="h3"
+            sx={{ 
+              fontFamily: '"Playfair Display", serif',
+              fontWeight: 700,
+              color: 'text.primary',
+              mb: 1
+            }}
+          >
+            Thư Giãn Cùng Âm Nhạc
+          </Typography>
+          <Typography 
+            variant="body1"
+            sx={{
+              color: 'text.secondary',
+              maxWidth: '600px',
+              margin: '0 auto',
+              lineHeight: 1.8
+            }}
+          >
             Âm nhạc giúp thư giãn và phục hồi tinh thần
           </Typography>
-
-          {/* Music Type Filter */}
-          <Stack direction="row" spacing={1} sx={{ flexWrap: 'wrap', gap: 1 }}>
-            {musicTypes.map((type) => (
-              <Chip
-                key={type.id}
-                label={type.label}
-                onClick={() => {
-                  setSelectedType(type.id);
-                  setCurrentPage(0);
-                }}
-                sx={{
-                  bgcolor: selectedType === type.id 
-                    ? 'rgba(255,255,255,0.3)' 
-                    : 'rgba(255,255,255,0.15)',
-                  color: 'white',
-                  fontWeight: selectedType === type.id ? 700 : 500,
-                  border: selectedType === type.id 
-                    ? '2px solid white' 
-                    : '2px solid transparent',
-                  '&:hover': {
-                    bgcolor: 'rgba(255,255,255,0.25)'
-                  }
-                }}
-              />
-            ))}
-          </Stack>
         </Box>
+
+        {/* Music Type Filter */}
+        <Stack 
+          direction="row" 
+          spacing={1} 
+          sx={{ 
+            flexWrap: 'wrap', 
+            gap: 1,
+            justifyContent: 'center',
+            mb: 2
+          }}
+        >
+          {musicTypes.map((type) => (
+            <Chip
+              key={type.id}
+              label={type.label}
+              onClick={() => {
+                setSelectedType(type.id);
+                setCurrentPage(0);
+              }}
+              sx={{
+                bgcolor: selectedType === type.id 
+                  ? 'secondary.main' 
+                  : 'background.paper',
+                color: selectedType === type.id ? 'white' : 'text.primary',
+                fontWeight: selectedType === type.id ? 600 : 500,
+                border: '1px solid',
+                borderColor: selectedType === type.id 
+                  ? 'secondary.main' 
+                  : 'divider',
+                '&:hover': {
+                  bgcolor: selectedType === type.id 
+                    ? 'secondary.dark' 
+                    : 'action.hover'
+                }
+              }}
+            />
+          ))}
+        </Stack>
       </Box>
 
       {/* Video Cards Container với Navigation */}
@@ -243,17 +264,31 @@ export default function MusicVideos({ onVideoClick }) {
                 minWidth: 320,
                 maxWidth: 320,
                 cursor: 'pointer',
-                transition: 'all 0.3s ease',
+                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                 position: 'relative',
-                borderRadius: 3,
+                borderRadius: '4px',
                 overflow: 'hidden',
-                boxShadow: '0 4px 12px rgba(250, 112, 154, 0.15)',
+                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)',
                 border: '1px solid',
-                borderColor: 'rgba(250, 112, 154, 0.1)',
+                borderColor: 'divider',
+                '&::before': {
+                  content: '""',
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  width: '4px',
+                  height: '0%',
+                  bgcolor: 'secondary.main',
+                  transition: 'height 0.3s ease',
+                  zIndex: 2
+                },
                 '&:hover': {
-                  transform: 'translateY(-12px)',
-                  boxShadow: '0 12px 28px rgba(250, 112, 154, 0.25)',
-                  borderColor: 'rgba(250, 112, 154, 0.3)',
+                  transform: 'translateY(-8px)',
+                  boxShadow: '0 8px 24px rgba(0, 0, 0, 0.12)',
+                  borderColor: 'secondary.main',
+                  '&::before': {
+                    height: '100%'
+                  },
                   '& .play-overlay': {
                     opacity: 1
                   }
@@ -300,18 +335,20 @@ export default function MusicVideos({ onVideoClick }) {
                     position: 'absolute',
                     bottom: 12,
                     right: 12,
-                    bgcolor: 'rgba(0,0,0,0.85)',
+                    bgcolor: 'rgba(0,0,0,0.75)',
                     color: 'white',
                     px: 1.5,
                     py: 0.5,
-                    borderRadius: 2,
+                    borderRadius: '4px',
                     fontSize: '0.75rem',
-                    fontWeight: 700,
-                    backdropFilter: 'blur(4px)',
-                    border: '1px solid rgba(255,255,255,0.2)'
+                    fontWeight: 600,
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 0.5
                   }}
                 >
-                  ⏱️ {video.duration}
+                  <TimerIcon sx={{ fontSize: 14 }} />
+                  {video.duration}
                 </Box>
               </Box>
               <Box sx={{ p: 2.5 }}>
@@ -360,11 +397,11 @@ export default function MusicVideos({ onVideoClick }) {
                 width: currentPage === index ? 32 : 10,
                 height: 10,
                 borderRadius: 5,
-                bgcolor: currentPage === index ? '#fa709a' : 'grey.300',
+                bgcolor: currentPage === index ? 'secondary.main' : 'grey.300',
                 cursor: 'pointer',
                 transition: 'all 0.3s ease',
                 '&:hover': {
-                  bgcolor: currentPage === index ? '#e85d87' : 'grey.400'
+                  bgcolor: currentPage === index ? 'secondary.dark' : 'grey.400'
                 }
               }}
             />

@@ -201,63 +201,75 @@ export default function FeaturedNews({ onArticleClick }) {
 
   return (
     <Box sx={{ mb: 8 }} id="featured-news">
-      {/* Header với gradient background */}
-      <Box 
-        sx={{ 
-          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-          borderRadius: 4,
-          p: 4,
-          mb: 4,
-          color: 'white',
-          position: 'relative',
-          overflow: 'hidden',
-          '&::before': {
-            content: '""',
-            position: 'absolute',
-            top: 0,
-            right: 0,
-            width: '200px',
-            height: '200px',
-            background: 'radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%)',
-            borderRadius: '50%',
-            transform: 'translate(50%, -50%)'
-          }
-        }}
-      >
-        <Box sx={{ position: 'relative', zIndex: 1 }}>
-          <Typography variant="h4" sx={{ fontWeight: 800, mb: 1, display: 'flex', alignItems: 'center', gap: 1 }}>
-            📰 Tin Nổi Bật Trong Ngày
+      {/* Header */}
+      <Box sx={{ mb: 4 }}>
+        <Box sx={{ textAlign: 'center', mb: 4 }}>
+          <Typography 
+            variant="overline"
+            sx={{
+              color: 'secondary.main',
+              fontWeight: 600,
+              letterSpacing: '0.15em',
+              fontSize: '0.875rem',
+              mb: 1,
+              display: 'block'
+            }}
+          >
+            TIN NỔI BẬT
           </Typography>
-          <Typography variant="body1" sx={{ opacity: 0.95, mb: 3 }}>
+          <Typography 
+            variant="h3"
+            sx={{ 
+              fontFamily: '"Playfair Display", serif',
+              fontWeight: 700,
+              color: 'text.primary',
+              mb: 1
+            }}
+          >
+            Tin Tức Trong Ngày
+          </Typography>
+          <Typography 
+            variant="body1"
+            sx={{
+              color: 'text.secondary',
+              maxWidth: '600px',
+              margin: '0 auto',
+              lineHeight: 1.8
+            }}
+          >
             Cập nhật tin tức y tế và sức khỏe mới nhất
           </Typography>
-
-          {/* Category Filter */}
-          <Tabs 
-            value={selectedCategory} 
-            onChange={(e, newValue) => setSelectedCategory(newValue)}
-            sx={{ 
-              '& .MuiTab-root': {
-                color: 'rgba(255,255,255,0.7)',
-                fontWeight: 600,
-                fontSize: '0.95rem',
-                '&.Mui-selected': {
-                  color: 'white'
-                }
-              },
-              '& .MuiTabs-indicator': {
-                backgroundColor: 'white',
-                height: 3
-              }
-            }}
-            variant="scrollable"
-            scrollButtons="auto"
-          >
-            {categories.map(cat => (
-              <Tab key={cat.id} value={cat.id} label={cat.label} />
-            ))}
-          </Tabs>
         </Box>
+
+        {/* Category Filter */}
+        <Tabs 
+          value={selectedCategory} 
+          onChange={(e, newValue) => setSelectedCategory(newValue)}
+          centered
+          sx={{ 
+            borderBottom: '1px solid',
+            borderColor: 'divider',
+            '& .MuiTab-root': {
+              color: 'text.secondary',
+              fontWeight: 600,
+              fontSize: '0.95rem',
+              textTransform: 'none',
+              '&.Mui-selected': {
+                color: 'secondary.main'
+              }
+            },
+            '& .MuiTabs-indicator': {
+              backgroundColor: 'secondary.main',
+              height: 3
+            }
+          }}
+          variant="scrollable"
+          scrollButtons="auto"
+        >
+          {categories.map(cat => (
+            <Tab key={cat.id} value={cat.id} label={cat.label} />
+          ))}
+        </Tabs>
       </Box>
 
       {/* News Cards Container với Navigation */}
@@ -321,16 +333,31 @@ export default function FeaturedNews({ onArticleClick }) {
                 minWidth: 320,
                 maxWidth: 320,
                 cursor: 'pointer',
-                transition: 'all 0.3s ease',
-                borderRadius: 3,
+                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                borderRadius: '4px',
                 overflow: 'hidden',
-                boxShadow: '0 4px 12px rgba(102, 126, 234, 0.15)',
+                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)',
                 border: '1px solid',
-                borderColor: 'rgba(102, 126, 234, 0.1)',
+                borderColor: 'divider',
+                position: 'relative',
+                '&::before': {
+                  content: '""',
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  width: '4px',
+                  height: '0%',
+                  bgcolor: 'secondary.main',
+                  transition: 'height 0.3s ease',
+                  zIndex: 1
+                },
                 '&:hover': {
-                  transform: 'translateY(-12px)',
-                  boxShadow: '0 12px 28px rgba(102, 126, 234, 0.25)',
-                  borderColor: 'rgba(102, 126, 234, 0.3)'
+                  transform: 'translateY(-8px)',
+                  boxShadow: '0 8px 24px rgba(0, 0, 0, 0.12)',
+                  borderColor: 'secondary.main',
+                  '&::before': {
+                    height: '100%'
+                  }
                 }
               }}
               onClick={() => onArticleClick(news)}
@@ -354,11 +381,9 @@ export default function FeaturedNews({ onArticleClick }) {
                     label={categories.find(c => c.id === news.category)?.label} 
                     size="small"
                     sx={{ 
-                      bgcolor: 'rgba(102, 126, 234, 0.95)',
+                      bgcolor: 'secondary.main',
                       color: 'white',
-                      fontWeight: 700,
-                      backdropFilter: 'blur(8px)',
-                      border: '1px solid rgba(255,255,255,0.2)'
+                      fontWeight: 600
                     }}
                   />
                 </Box>
@@ -406,13 +431,13 @@ export default function FeaturedNews({ onArticleClick }) {
                   borderColor: 'divider' 
                 }}>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                    <CalendarTodayIcon sx={{ fontSize: 14, color: 'primary.main' }} />
+                    <CalendarTodayIcon sx={{ fontSize: 14, color: 'text.secondary' }} />
                     <Typography variant="caption" sx={{ fontSize: '0.75rem', fontWeight: 500 }}>
                       {news.date}
                     </Typography>
                   </Box>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                    <VisibilityIcon sx={{ fontSize: 14, color: 'primary.main' }} />
+                    <VisibilityIcon sx={{ fontSize: 14, color: 'text.secondary' }} />
                     <Typography variant="caption" sx={{ fontSize: '0.75rem', fontWeight: 500 }}>
                       {news.views}
                     </Typography>
@@ -435,11 +460,11 @@ export default function FeaturedNews({ onArticleClick }) {
                 width: currentPage === index ? 32 : 10,
                 height: 10,
                 borderRadius: 5,
-                bgcolor: currentPage === index ? 'primary.main' : 'grey.300',
+                bgcolor: currentPage === index ? 'secondary.main' : 'grey.300',
                 cursor: 'pointer',
                 transition: 'all 0.3s ease',
                 '&:hover': {
-                  bgcolor: currentPage === index ? 'primary.dark' : 'grey.400'
+                  bgcolor: currentPage === index ? 'secondary.dark' : 'grey.400'
                 }
               }}
             />

@@ -1,4 +1,4 @@
-import { Box, Container, Typography } from '@mui/material';
+﻿import { Box, Container, Typography } from '@mui/material';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import SupportAgentIcon from '@mui/icons-material/SupportAgent';
 import ContactSupportIcon from '@mui/icons-material/ContactSupport';
@@ -18,51 +18,78 @@ export default function SupportHero() {
     }
   };
 
+  const features = [
+    {
+      icon: HelpOutlineIcon,
+      title: 'Câu Hỏi Thường Gặp',
+      description: 'Tìm câu trả lời nhanh chóng cho các thắc mắc phổ biến',
+      sectionId: 'faq-section'
+    },
+    {
+      icon: ContactSupportIcon,
+      title: 'Liên Hệ Hỗ Trợ',
+      description: 'Gửi yêu cầu hỗ trợ và nhận phản hồi trong 24h',
+      sectionId: 'contact-section'
+    },
+    {
+      icon: SupportAgentIcon,
+      title: 'Trò Chuyện Trực Tiếp',
+      description: 'Chat với đội ngũ hỗ trợ ngay lập tức',
+      sectionId: 'live-chat-section'
+    }
+  ];
+
   return (
     <Box
       sx={{
-        background: 'linear-gradient(135deg, #00acc1 0%, #0097a7 100%)',
-        color: 'white',
-        py: 12,
+        bgcolor: '#ffffff',
+        py: { xs: 8, md: 12 },
         position: 'relative',
         overflow: 'hidden',
-        minHeight: '600px',
-        '&::before': {
-          content: '""',
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          background: 'url("https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=1920&h=400&fit=crop") center/cover',
-          opacity: 0.1,
-          zIndex: 0
-        }
+        borderBottom: '1px solid',
+        borderColor: 'divider'
       }}
     >
-      <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+      <Container maxWidth="lg">
         {/* Main Title */}
         <Box sx={{ textAlign: 'center', mb: 8 }}>
-          <Typography 
-            variant="h2" 
-            sx={{ 
-              fontWeight: 800, 
-              mb: 3,
-              fontSize: { xs: '2.5rem', md: '4rem' },
-              textShadow: '2px 4px 8px rgba(0,0,0,0.3)',
-              letterSpacing: '-0.02em'
+          <Typography
+            variant="overline"
+            sx={{
+              color: '#e74c3c',
+              fontWeight: 700,
+              fontSize: '0.9rem',
+              letterSpacing: '2px',
+              mb: 2,
+              display: 'block'
             }}
           >
-            🤝 Trung Tâm Hỗ Trợ
+            HỖ TRỢ KHÁCH HÀNG
           </Typography>
-          <Typography 
-            variant="h5" 
-            sx={{ 
+          
+          <Typography
+            variant="h2"
+            sx={{
+              fontFamily: "'Playfair Display', serif",
+              fontWeight: 700,
+              fontSize: { xs: '2.5rem', md: '3.5rem' },
+              mb: 3,
+              lineHeight: 1.2,
+              color: 'text.primary'
+            }}
+          >
+            Trung Tâm Hỗ Trợ
+          </Typography>
+          
+          <Typography
+            variant="h6"
+            sx={{
+              fontFamily: "'Inter', sans-serif",
               fontWeight: 400,
-              opacity: 0.95,
-              fontSize: { xs: '1.1rem', md: '1.5rem' },
+              color: 'text.secondary',
               maxWidth: '600px',
-              mx: 'auto'
+              mx: 'auto',
+              lineHeight: 1.8
             }}
           >
             Chúng tôi luôn sẵn sàng hỗ trợ bạn 24/7
@@ -70,157 +97,120 @@ export default function SupportHero() {
         </Box>
 
         {/* Feature Cards */}
-        <Box 
-          sx={{ 
+        <Box
+          sx={{
             display: 'grid',
-            gridTemplateColumns: { 
-              xs: '1fr', 
-              sm: 'repeat(2, 1fr)', 
-              md: 'repeat(3, 1fr)' 
+            gridTemplateColumns: {
+              xs: '1fr',
+              sm: 'repeat(2, 1fr)',
+              md: 'repeat(3, 1fr)'
             },
-            gap: 4,
+            gap: 3,
             maxWidth: '1000px',
-            mx: 'auto',
-            width: '100%'
+            mx: 'auto'
           }}
         >
-          {/* FAQ Card */}
-          <Box
-            onClick={() => scrollToSection('faq-section')}
-            sx={{
-              bgcolor: 'rgba(255,255,255,0.15)',
-              backdropFilter: 'blur(10px)',
-              borderRadius: 4,
-              p: 4,
-              textAlign: 'center',
-              border: '2px solid rgba(255,255,255,0.2)',
-              transition: 'all 0.3s ease',
-              cursor: 'pointer',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              height: '100%',
-              '&:hover': {
-                transform: 'translateY(-12px)',
-                bgcolor: 'rgba(255,255,255,0.25)',
-                boxShadow: '0 12px 32px rgba(0,0,0,0.3)',
-                borderColor: 'rgba(255,255,255,0.4)'
-              }
-            }}
-          >
-            <Box
-              sx={{
-                width: 80,
-                height: 80,
-                borderRadius: '50%',
-                bgcolor: 'rgba(255,255,255,0.2)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                mb: 3
-              }}
-            >
-              <HelpOutlineIcon sx={{ fontSize: 48 }} />
-            </Box>
-            <Typography variant="h5" sx={{ fontWeight: 700, mb: 2 }}>
-              Câu Hỏi Thường Gặp
-            </Typography>
-            <Typography variant="body1" sx={{ opacity: 0.9, lineHeight: 1.6 }}>
-              Tìm câu trả lời nhanh chóng cho các thắc mắc phổ biến
-            </Typography>
-          </Box>
+          {features.map((feature, index) => {
+            const IconComponent = feature.icon;
+            return (
+              <Box
+                key={index}
+                onClick={() => scrollToSection(feature.sectionId)}
+                sx={{
+                  bgcolor: '#fafafa',
+                  borderRadius: 2,
+                  p: 4,
+                  textAlign: 'center',
+                  border: '1px solid',
+                  borderColor: 'divider',
+                  borderLeft: '3px solid transparent',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                  '&:hover': {
+                    transform: 'translateY(-8px)',
+                    boxShadow: '0 8px 24px rgba(0,0,0,0.12)',
+                    borderLeftColor: '#e74c3c',
+                    bgcolor: '#ffffff'
+                  }
+                }}
+              >
+                <Box
+                  sx={{
+                    width: 64,
+                    height: 64,
+                    borderRadius: '50%',
+                    border: '2px solid #e74c3c',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    mx: 'auto',
+                    mb: 3,
+                    transition: 'all 0.3s ease'
+                  }}
+                >
+                  <IconComponent sx={{ fontSize: 32, color: '#e74c3c' }} />
+                </Box>
 
-          {/* Contact Form Card */}
-          <Box
-            onClick={() => scrollToSection('contact-section')}
-            sx={{
-              bgcolor: 'rgba(255,255,255,0.15)',
-              backdropFilter: 'blur(10px)',
-              borderRadius: 4,
-              p: 4,
-              textAlign: 'center',
-              border: '2px solid rgba(255,255,255,0.2)',
-              transition: 'all 0.3s ease',
-              cursor: 'pointer',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              height: '100%',
-              '&:hover': {
-                transform: 'translateY(-12px)',
-                bgcolor: 'rgba(255,255,255,0.25)',
-                boxShadow: '0 12px 32px rgba(0,0,0,0.3)',
-                borderColor: 'rgba(255,255,255,0.4)'
-              }
-            }}
-          >
-            <Box
-              sx={{
-                width: 80,
-                height: 80,
-                borderRadius: '50%',
-                bgcolor: 'rgba(255,255,255,0.2)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                mb: 3
-              }}
-            >
-              <ContactSupportIcon sx={{ fontSize: 48 }} />
-            </Box>
-            <Typography variant="h5" sx={{ fontWeight: 700, mb: 2 }}>
-              Liên Hệ Hỗ Trợ
-            </Typography>
-            <Typography variant="body1" sx={{ opacity: 0.9, lineHeight: 1.6 }}>
-              Gửi yêu cầu hỗ trợ và nhận phản hồi trong 24h
-            </Typography>
-          </Box>
+                <Typography
+                  variant="h6"
+                  sx={{
+                    fontFamily: "'Playfair Display', serif",
+                    fontWeight: 700,
+                    color: 'text.primary',
+                    mb: 2
+                  }}
+                >
+                  {feature.title}
+                </Typography>
 
-          {/* Live Chat Card */}
-          <Box
-            onClick={() => scrollToSection('live-chat-section')}
+                <Typography
+                  variant="body2"
+                  sx={{
+                    fontFamily: "'Inter', sans-serif",
+                    color: 'text.secondary',
+                    lineHeight: 1.7
+                  }}
+                >
+                  {feature.description}
+                </Typography>
+              </Box>
+            );
+          })}
+        </Box>
+
+        {/* Emergency Notice */}
+        <Box
+          sx={{
+            mt: 8,
+            p: 3,
+            bgcolor: 'rgba(231, 76, 60, 0.05)',
+            borderRadius: 2,
+            border: '1px solid',
+            borderColor: 'rgba(231, 76, 60, 0.2)',
+            borderLeft: '3px solid #e74c3c',
+            textAlign: 'center'
+          }}
+        >
+          <Typography
+            variant="h6"
             sx={{
-              bgcolor: 'rgba(255,255,255,0.15)',
-              backdropFilter: 'blur(10px)',
-              borderRadius: 4,
-              p: 4,
-              textAlign: 'center',
-              border: '2px solid rgba(255,255,255,0.2)',
-              transition: 'all 0.3s ease',
-              cursor: 'pointer',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              height: '100%',
-              '&:hover': {
-                transform: 'translateY(-12px)',
-                bgcolor: 'rgba(255,255,255,0.25)',
-                boxShadow: '0 12px 32px rgba(0,0,0,0.3)',
-                borderColor: 'rgba(255,255,255,0.4)'
-              }
+              fontFamily: "'Playfair Display', serif",
+              fontWeight: 700,
+              color: '#e74c3c',
+              mb: 1
             }}
           >
-            <Box
-              sx={{
-                width: 80,
-                height: 80,
-                borderRadius: '50%',
-                bgcolor: 'rgba(255,255,255,0.2)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                mb: 3
-              }}
-            >
-              <SupportAgentIcon sx={{ fontSize: 48 }} />
-            </Box>
-            <Typography variant="h5" sx={{ fontWeight: 700, mb: 2 }}>
-              Trò Chuyện Trực Tiếp
-            </Typography>
-            <Typography variant="body1" sx={{ opacity: 0.9, lineHeight: 1.6 }}>
-              Chat với đội ngũ hỗ trợ ngay lập tức
-            </Typography>
-          </Box>
+             Trường Hợp Khẩn Cấp
+          </Typography>
+          <Typography
+            variant="body2"
+            sx={{
+              fontFamily: "'Inter', sans-serif",
+              color: 'text.primary'
+            }}
+          >
+            Vui lòng gọi <strong style={{ color: '#e74c3c' }}>115</strong> hoặc đến ngay cơ sở y tế gần nhất
+          </Typography>
         </Box>
       </Container>
     </Box>

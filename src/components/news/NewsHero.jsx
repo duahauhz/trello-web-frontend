@@ -21,46 +21,50 @@ export default function NewsHero() {
   return (
     <Box
       sx={{
-        bgcolor: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-        color: 'white',
-        py: 12,
+        bgcolor: 'background.paper',
+        py: { xs: 8, md: 12 },
         position: 'relative',
-        overflow: 'hidden',
-        minHeight: '500px',
-        '&::before': {
-          content: '""',
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          background: 'url("https://images.unsplash.com/photo-1505751172876-fa1923c5c528?w=1920&h=400&fit=crop") center/cover',
-          opacity: 0.15,
-          zIndex: 0
-        }
+        borderBottom: '1px solid',
+        borderColor: 'divider'
       }}
     >
-      <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1, mb: 20 }}>
+      <Container maxWidth="lg">
         {/* Main Title */}
-        <Box sx={{ textAlign: 'center', mb: 6 }}>
+        <Box sx={{ textAlign: 'center', mb: { xs: 6, md: 8 } }}>
+          <Typography 
+            variant="overline"
+            sx={{
+              color: 'secondary.main',
+              fontWeight: 600,
+              letterSpacing: '0.15em',
+              fontSize: '0.875rem',
+              mb: 2,
+              display: 'block'
+            }}
+          >
+            TIN TỨC & SỨC KHỎE
+          </Typography>
           <Typography 
             variant="h2" 
             sx={{ 
-              fontWeight: 800, 
+              fontFamily: '"Playfair Display", serif',
+              fontWeight: 700, 
               mb: 2,
-              fontSize: { xs: '2rem', md: '3.5rem' },
-              textShadow: '2px 4px 8px rgba(0,0,0,0.3)'
+              fontSize: { xs: '2rem', md: '3rem' },
+              color: 'text.primary'
             }}
           >
-            🌟 Tin Tức & Sức Khỏe
+            Kiến Thức Sức Khỏe
           </Typography>
           <Typography 
-            variant="h5" 
+            variant="h6" 
             sx={{ 
               fontWeight: 400,
-              opacity: 0.95,
-              fontSize: { xs: '1rem', md: '1.25rem' }
+              color: 'text.secondary',
+              fontSize: { xs: '1rem', md: '1.25rem' },
+              maxWidth: '700px',
+              margin: '0 auto',
+              lineHeight: 1.8
             }}
           >
             Cập nhật tin tức y tế mới nhất, bài tập phục hồi và âm nhạc thư giãn
@@ -70,38 +74,60 @@ export default function NewsHero() {
         {/* Feature Cards */}
         <Box 
           sx={{ 
-            display: 'flex', 
-            gap: 3,
-            justifyContent: 'center',
-            flexWrap: 'wrap'
+            display: 'grid',
+            gridTemplateColumns: {
+              xs: '1fr',
+              md: 'repeat(3, 1fr)'
+            },
+            gap: 3
           }}
         >
           {/* Tin Nổi Bật */}
           <Box
             onClick={() => scrollToSection('featured-news')}
             sx={{
-              flex: '1 1 250px',
-              maxWidth: 300,
-              bgcolor: 'rgba(255,255,255,0.15)',
-              backdropFilter: 'blur(10px)',
-              borderRadius: 3,
-              p: 3,
+              bgcolor: 'background.default',
+              borderRadius: '4px',
+              p: 4,
               textAlign: 'center',
-              border: '1px solid rgba(255,255,255,0.2)',
-              transition: 'all 0.3s ease',
+              border: '2px solid',
+              borderColor: 'divider',
+              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
               cursor: 'pointer',
+              position: 'relative',
+              '&::before': {
+                content: '""',
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '4px',
+                bgcolor: 'secondary.main',
+                opacity: 0,
+                transition: 'opacity 0.3s ease'
+              },
               '&:hover': {
                 transform: 'translateY(-8px)',
-                bgcolor: 'rgba(255,255,255,0.25)',
-                boxShadow: '0 8px 24px rgba(0,0,0,0.2)'
+                borderColor: 'secondary.main',
+                boxShadow: '0 8px 24px rgba(0, 0, 0, 0.12)',
+                '&::before': {
+                  opacity: 1
+                }
               }
             }}
           >
-            <NewspaperIcon sx={{ fontSize: 48, mb: 2 }} />
-            <Typography variant="h6" sx={{ fontWeight: 700, mb: 1 }}>
+            <NewspaperIcon sx={{ fontSize: 48, mb: 2, color: 'text.primary' }} />
+            <Typography 
+              variant="h6" 
+              sx={{ 
+                fontWeight: 700, 
+                mb: 1,
+                fontFamily: '"Playfair Display", serif'
+              }}
+            >
               Tin Nổi Bật
             </Typography>
-            <Typography variant="body2" sx={{ opacity: 0.9 }}>
+            <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 1.6 }}>
               Cập nhật tin tức y tế và sức khỏe mới nhất
             </Typography>
           </Box>
@@ -110,28 +136,48 @@ export default function NewsHero() {
           <Box
             onClick={() => scrollToSection('exercise-articles')}
             sx={{
-              flex: '1 1 250px',
-              maxWidth: 300,
-              bgcolor: 'rgba(255,255,255,0.15)',
-              backdropFilter: 'blur(10px)',
-              borderRadius: 3,
-              p: 3,
+              bgcolor: 'background.default',
+              borderRadius: '4px',
+              p: 4,
               textAlign: 'center',
-              border: '1px solid rgba(255,255,255,0.2)',
-              transition: 'all 0.3s ease',
+              border: '2px solid',
+              borderColor: 'divider',
+              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
               cursor: 'pointer',
+              position: 'relative',
+              '&::before': {
+                content: '""',
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '4px',
+                bgcolor: 'secondary.main',
+                opacity: 0,
+                transition: 'opacity 0.3s ease'
+              },
               '&:hover': {
                 transform: 'translateY(-8px)',
-                bgcolor: 'rgba(255,255,255,0.25)',
-                boxShadow: '0 8px 24px rgba(0,0,0,0.2)'
+                borderColor: 'secondary.main',
+                boxShadow: '0 8px 24px rgba(0, 0, 0, 0.12)',
+                '&::before': {
+                  opacity: 1
+                }
               }
             }}
           >
-            <FitnessCenterIcon sx={{ fontSize: 48, mb: 2 }} />
-            <Typography variant="h6" sx={{ fontWeight: 700, mb: 1 }}>
+            <FitnessCenterIcon sx={{ fontSize: 48, mb: 2, color: 'text.primary' }} />
+            <Typography 
+              variant="h6" 
+              sx={{ 
+                fontWeight: 700, 
+                mb: 1,
+                fontFamily: '"Playfair Display", serif'
+              }}
+            >
               Bài Tập Phục Hồi
             </Typography>
-            <Typography variant="body2" sx={{ opacity: 0.9 }}>
+            <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 1.6 }}>
               Hướng dẫn các bài tập phục hồi chức năng
             </Typography>
           </Box>
@@ -140,28 +186,48 @@ export default function NewsHero() {
           <Box
             onClick={() => scrollToSection('music-videos')}
             sx={{
-              flex: '1 1 250px',
-              maxWidth: 300,
-              bgcolor: 'rgba(255,255,255,0.15)',
-              backdropFilter: 'blur(10px)',
-              borderRadius: 3,
-              p: 3,
+              bgcolor: 'background.default',
+              borderRadius: '4px',
+              p: 4,
               textAlign: 'center',
-              border: '1px solid rgba(255,255,255,0.2)',
-              transition: 'all 0.3s ease',
+              border: '2px solid',
+              borderColor: 'divider',
+              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
               cursor: 'pointer',
+              position: 'relative',
+              '&::before': {
+                content: '""',
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '4px',
+                bgcolor: 'secondary.main',
+                opacity: 0,
+                transition: 'opacity 0.3s ease'
+              },
               '&:hover': {
                 transform: 'translateY(-8px)',
-                bgcolor: 'rgba(255,255,255,0.25)',
-                boxShadow: '0 8px 24px rgba(0,0,0,0.2)'
+                borderColor: 'secondary.main',
+                boxShadow: '0 8px 24px rgba(0, 0, 0, 0.12)',
+                '&::before': {
+                  opacity: 1
+                }
               }
             }}
           >
-            <MusicNoteIcon sx={{ fontSize: 48, mb: 2 }} />
-            <Typography variant="h6" sx={{ fontWeight: 700, mb: 1 }}>
+            <MusicNoteIcon sx={{ fontSize: 48, mb: 2, color: 'text.primary' }} />
+            <Typography 
+              variant="h6" 
+              sx={{ 
+                fontWeight: 700, 
+                mb: 1,
+                fontFamily: '"Playfair Display", serif'
+              }}
+            >
               Âm Nhạc Thư Giãn
             </Typography>
-            <Typography variant="body2" sx={{ opacity: 0.9 }}>
+            <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 1.6 }}>
               Âm nhạc giúp thư giãn và phục hồi tinh thần
             </Typography>
           </Box>
