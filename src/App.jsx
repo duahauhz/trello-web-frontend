@@ -23,6 +23,8 @@ import SpecialtyDoctors from "./pages/SpecialtyDoctors";
 import AllDoctors from "./pages/AllDoctors";
 import DoctorDetail from "./pages/DoctorDetail";
 import AppointmentBooking from "./pages/AppointmentBooking";
+import News from "./pages/News";
+import Support from "./pages/Support";
 import Footer from "./components/Footer";
 import ChatDetail from "./components/ai/ChatDetail";
 
@@ -84,6 +86,8 @@ export default function App() {
         <Route path="/booking/doctors" element={<AllDoctors />} />
         <Route path="/booking/doctor/:id" element={<DoctorDetail />} />
         <Route path="/booking/appointment/:id" element={<AppointmentBooking />} />
+        <Route path="/news" element={<News />} />
+        <Route path="/support" element={<Support />} />
         <Route path="/ai" element={<AiCompanion />} />
         <Route path="/ai/chat/:topicId" element={<AISS1 />} />
         <Route path="/ai/history" element={<ChatHistoryPage />} />

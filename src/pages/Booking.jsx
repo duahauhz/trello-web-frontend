@@ -17,19 +17,19 @@ export default function Booking() {
     <Box sx={{ minHeight: '100vh', bgcolor: 'background.default' }}>
       <Header />
       
-      <Container maxWidth="xl" sx={{ py: 4 }}>
+      <Container maxWidth="xl" sx={{ py: 20 }}>
         {/* Appointment Schedule Section */}
-        <Box sx={{ mb: 6 }}>
+        <Box sx={{ mb: 15 }}>
           <AppointmentSchedule />
         </Box>
         
         {/* Medical Specialties Section */}
-        <Box sx={{ mb: 6 }}>
+        <Box sx={{ mb: 15 }}>
           <MedicalSpecialties />
         </Box>
         
         {/* Top Rated Doctors Section */}
-        <Box sx={{ mb: 6 }}>
+        <Box sx={{ mb: 15 }}>
           <TopRatedDoctors />
         </Box>
         
